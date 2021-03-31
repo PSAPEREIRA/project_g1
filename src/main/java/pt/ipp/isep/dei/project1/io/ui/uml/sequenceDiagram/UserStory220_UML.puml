@@ -1,0 +1,93 @@
+@startuml
+actor "Administrator" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant ":RemoveDeviceFromRoomUI" as U #DAE8FC
+participant ":RemoveDeviceFromRoomController" as C #DAE8FC
+participant "house:House" as H #DAE8FC
+participant "roomChosen:Room" as R #DAE8FC
+participant "listOfDevices:ListOfDevices" as LD #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate P
+
+
+M -> P: Show menu
+activate M
+P -> M: Remove a device from a room
+
+create U
+M -> U : create (house)
+
+create C
+U -> C : create (house)
+
+M -> U: run ( )
+activate U
+U -> C: getListOfRooms ( )
+activate C
+C -> H: getListOfRooms ( )
+activate H
+H --> C: listOfRooms
+deactivate H
+C --> U: listOfRooms
+deactivate C
+U -> P: Show list of Rooms
+P-->U: roomChosen
+
+U->C: getListOfDevices (roomChosen)
+activate C
+C->R: getListOfDevices ( )
+activate R
+R --> C: listOfDevices
+deactivate R
+C --> U: listOfDevices
+deactivate C
+U -> P: Show list of Devices
+P-->U: deviceChosen
+
+
+U->C: removeDeviceFromRoom (roomChosen, deviceChosen)
+activate C
+C->R: removeDeviceFromRoom (deviceChosen)
+activate R
+R->LD: removeDevice(deviceChosen)
+activate LD
+alt case of sucess
+LD-->R: true
+
+R-->C: true
+
+C-->U: true
+
+U-->P: Device removed successfully
+else [                     [case of failure
+LD-->R: false
+deactivate LD
+R-->C: false
+deactivate R
+C-->U: false
+deactivate C
+U-->P: Error message
+
+deactivate U
+deactivate M
+deactivate P
+end
+
+
+@enduml

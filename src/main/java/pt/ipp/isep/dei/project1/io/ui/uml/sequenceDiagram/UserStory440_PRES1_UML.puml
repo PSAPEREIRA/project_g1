@@ -1,0 +1,52 @@
+@startuml
+
+participant "rclUi:RoomComfortLevelUI" as UI #DAE8FC
+participant "rclCtrl:RoomComfortLevelCTRL" as C #DAE8FC
+participant "rGas:RoomGeoAreaService" as CTRL #DAE8FC
+participant "gar: GeographicAreaRepo" as GAS #DAE8FC
+participant "ga:GeographicArea" as GA #DAE8FC
+participant "rs: RoomRepo" as RS #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+UI -> C : getInstancesWithTemperature\nHigherLowerComfortLevel \n (roomDto, cat, "below",\n initialDate, finalDate)
+
+
+C -> CTRL : getInstancesWithTemperature\nHigherLowerComfortLevel \n (roomDto, cat, "below",\n initialDate, finalDate)
+note left
+	Option variable refers to a String constant
+end note
+CTRL -> GAS : getAverageDailyTemperatureHouseArea \n (houseGeoAreaName, houseLocation, initialDate, finalDate)
+
+loop through time period inserted by user
+GAS -> GA : getAverageDailyTemperatureInHouseArea \n (houseLocation, sensorType, initialDate)
+GAS <-- GA : dailyAverageTemperature
+end
+
+CTRL <- GAS : houseAreaDailyAverageTemperatureList
+
+CTRL -> RS : getInstancesWithTempHigherLowerComfort (roomDto, cat, initialDate, finalDate, "below", houseAreaDailyAverageTemperatureList)
+
+RS --> CTRL : list of instants requested
+
+CTRL --> C : list of instants requested
+
+C --> UI : list of instants requested
+
+
+
+@enduml

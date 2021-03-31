@@ -1,0 +1,95 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+
+	}
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+class GetTheDayWithHighestTemperatureAmplitudeController
+class House
+class GeographicArea
+class ListOfSensors
+class Sensor
+class ListOfReadings
+class MapperSensorList
+class ListOfSensorsDto
+class SensorDto
+class Reading
+
+
+GetTheDayWithHighestTemperatureAmplitudeUI "1" -> "1 " GetTheDayWithHighestTemperatureAmplitudeController
+GetTheDayWithHighestTemperatureAmplitudeController "1" -> "1" House
+GetTheDayWithHighestTemperatureAmplitudeController "1  " ..> "1  " MapperSensorList
+MapperSensorList "1  " --> "1  " ListOfSensorsDto
+ListOfSensorsDto "1  " --> "0..*  " SensorDto
+House "1 " -> "1" GeographicArea
+GeographicArea "1" -> "1" ListOfSensors
+ListOfReadings "1   " --> "0..* " Reading
+ListOfSensors "1   " --> "0..* " Sensor
+
+Sensor "1  " --> "1  " ListOfReadings
+
+
+GetTheDayWithHighestTemperatureAmplitudeController : - house:House
+GetTheDayWithHighestTemperatureAmplitudeController : + getListOfSensorsInHouseAreaAsDto ( )
+GetTheDayWithHighestTemperatureAmplitudeController : + getSensorClosest( )
+GetTheDayWithHighestTemperatureAmplitudeController : + getDayWithHighestTemperatureAmplitude( )
+GetTheDayWithHighestTemperatureAmplitudeController : + getHighestTemperatureAmplitude( )
+
+MapperSensorList : + {static} toDto ( )
+
+ListOfSensorsDto : + getListOfSensorDto ( )
+
+SensorDto : - geographicAreaType:String
+SensorDto : - location:Location
+SensorDto : - sensorType:SensorType
+SensorDto : - listOfReadings:ListOfReadings
+SensorDto : + getName( )
+SensorDto : + getLocation( )
+SensorDto : + getSensorType( )
+SensorDto : + getListOfReadings( )
+
+House : + getSensorClosest ( )
+
+GeographicArea : - geographicAreaType:String
+GeographicArea : + getListOfSensors( )
+GeographicArea : + getSensorsClosestToHouseArea( )
+
+ListOfSensors : + getSensorClosestForReadings( )
+
+Sensor : - geographicAreaType:String
+Sensor : - location:Location
+Sensor : - sensorType:SensorType
+Sensor : - installationDate:LocalDate
+Sensor : + calculateDistanceBetweenSensorToHouse( )
+Sensor : + checkSensorTypeToList( )
+
+ListOfReadings : + getHighestTemperatureAmplitudeAndDate( )
+ListOfReadings : + getHighestTemperatureAmplitude( )
+ListOfReadings : + getMaxTempOfDay( )
+ListOfReadings : + getMinTempOfDay( )
+
+Reading : - value:double
+Reading : - dateTime:LocalDateTime
+Reading : + getValue( )
+Reading : + getDateTime( )
+Reading : + checkIfDateIsBefore( )
+Reading : + checkIfDateIsAfter( )
+Reading : + isValueOfDay( )
+
+@enduml

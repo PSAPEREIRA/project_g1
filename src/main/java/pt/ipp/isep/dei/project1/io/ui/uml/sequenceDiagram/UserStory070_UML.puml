@@ -1,0 +1,35 @@
+@startuml
+
+participant ":House" as H
+participant ":ListOfDevices" as L
+participant ":Configurations" as C
+
+participant ":DeviceType" as D #F5DEB3
+
+
+H -> L: getListOfDeviceTypes( )
+activate H
+
+activate L
+L -> C: readListOfDevicesTypes( )
+
+activate C
+L <-- C: String listOfDevicesTypes
+deactivate C
+
+loop for each String in list
+
+	L -> D: newDeviceType( )
+	activate D
+
+	L <-- D: deviceType
+	deactivate D
+
+	L -> L: deviceTypeList.add(deviceType)
+end
+
+H <-- L: listOfDevicesTypes
+deactivate L
+
+deactivate H
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+USER -> UI: Get List of Existing Geographical Area Types
+UI -> ListOfGeographicAreaTypes: get ListOfGATypes
+
+USER <-- ListOfGeographicAreaTypes : return ListOfGATypes
+
+
+@enduml

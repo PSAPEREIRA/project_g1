@@ -1,0 +1,53 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+
+	}
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+class CreateAHouseGridRestController
+class HouseGridRepo
+class HouseGrid
+class PowerSource
+
+
+CreateAHouseGridRestController "1" --> "1" HouseGridRepo
+
+HouseGridRepo "1" --> "1" HouseGrid
+
+HouseGrid "*" --> "1" PowerSource
+
+
+
+CreateAHouseGridRestController : + addNewHouseGrid ( )
+
+HouseGridRepo : + newHouseGrid ( )
+HouseGridRepo : + addHouseGrid ( )
+
+HouseGrid : - validateBeforeCreate ( )
+HouseGrid : - validateCode ( )
+HouseGrid : - validatePowerLimiter ( )
+HouseGrid : - addPowerSource ( )
+
+PowerSource : - validateName()
+PowerSource : - validateBeforeCreate()
+PowerSource : - validateMaxPower ( )
+
+
+@enduml

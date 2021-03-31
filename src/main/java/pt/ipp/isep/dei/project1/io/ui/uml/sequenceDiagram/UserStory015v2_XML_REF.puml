@@ -1,0 +1,68 @@
+@startuml
+
+participant "ui015v2:ImportGeographicalAreasAndSensorsFromJSONOrXMLFileUI" as U #DAE8FC
+participant "uc015v2:ImportGeographicalAreasAndSensorsFromJSONOrXMLFileController" as C #DAE8FC
+participant "XmlReader" as J #DAE8FC
+participant "file:File" as F #DAE8FC
+participant "xmlMapper:XmlMapper" as O #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+U->C: importFromFile (listGeoArea, listOfGeoAreaTypes, path)
+
+activate C
+
+C->J: importGaFromInputPath(path)
+
+activate J
+
+create F
+J->F: create (path)
+
+create O
+J->O: create ( )
+
+activate O
+
+J->O: readValue(file, ListOfGaFromFile.class)
+
+O-->J: listOfGaFromFile
+
+deactivate O
+
+J-->C: listOfGeosFromFile
+
+
+deactivate J
+
+C->C: createListOfGeoAreas( listOfGeosImported )
+
+
+C->C: getNamesOfAddedGeos ( listOfGeosImported, listOfGeoArea, listOfGeoAreaTypes )
+note left
+	This method also
+	adds the
+	imported Geo Areas
+	and it's types
+	to the model lists
+end note
+C-->U: list of names of imported GeoAreas
+
+deactivate C
+
+@enduml

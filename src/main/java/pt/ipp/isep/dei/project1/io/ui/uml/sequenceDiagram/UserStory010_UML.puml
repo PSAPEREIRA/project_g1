@@ -1,0 +1,95 @@
+@startuml
+actor "Administrator" as A #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "deaReaSensorUi:DeactivateRemoveSensorGAUI" as UI #DAE8FC
+participant "deaReaSensorCtrlr:DeactivateRemoveSensorGAController" as C #DAE8FC
+participant "status:Status" as ST #DAE8FC
+participant "listGeographicAreas:ListOfGeoAreas" as LG #DAE8FC
+participant "MapperListOfGeoAreas" as MG #DAE8FC
+participant "sensorChosen:Sensor" as S #DAE8FC
+
+
+
+
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+
+activate A
+
+M -> A: Show menu
+activate M
+A->M: deactivate areaSensor in Geographic Area
+
+create UI
+M -> UI : create ( listGeographicArea )
+create C
+UI -> C : create ( listGeographicArea )
+
+M -> UI: run ( )
+activate UI
+
+
+
+UI -> C: getListOfGeoAreasDto ( )
+activate C
+C -> LG: getListOfGeographicAreas ( )
+activate LG
+LG-->C: listGeographicAreas
+deactivate LG
+C -> MG: toDto ( listGeographicAreas )
+activate MG
+MG --> C: listGeographicAreasDto
+deactivate MG
+C --> UI: listOfGeoAreasDto
+deactivate C
+
+UI->A: Request Geographic Area
+A-->UI:Geographic Area chosen
+
+UI->C:  getListOfSensorsActivate(optionGeographicArea)
+activate C
+C-->UI: activateListOfSensors
+deactivate C
+
+UI-->A: Request areaSensor
+A-->UI:areaSensor chosen
+
+UI->C: deactivateSensor ( geographicAreaDtoChosen, sensorDtoChosen )
+activate C
+C->C: getById ( id )
+activate C
+deactivate C
+
+create ST
+C -> ST : create ( false, dateOfDeactivate )
+
+C->S: add (status:Status)
+activate S
+S-->C:  areaSensor deactivated
+deactivate S
+C-->UI:  areaSensor deactivated
+deactivate C
+UI-->M:  areaSensor deactivated
+deactivate UI
+M-->A:  areaSensor deactivated
+deactivate M
+
+
+@enduml

@@ -1,0 +1,80 @@
+@startuml
+actor "Regular User" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant ":GetTheLastColdestDayInGivenPeriodUI" as U #DAE8FC
+participant ":GetTheLastColdestDayInGivenPeriodController" as C #DAE8FC
+participant ":MapperSensorsList" as MP #DAE8FC
+participant "sensorClosest:Sensor" as S #DAE8FC
+participant ":ListOfReading" as LR #DAE8FC
+participant ":MapperReadings" as MR #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate P
+
+
+M -> P: Show menu
+activate M
+P -> M: Get the last coldest day in given period
+
+create U
+M -> U : create (house)
+
+create C
+U -> C : create (house)
+
+M -> U: run ( )
+activate U
+U -> C: getListOfSensorsInHouseAreaDto ( )
+activate C
+C -> MP: toDto (listOfAreaSensors)
+activate MP
+MP --> C: listOfSensorsInHouseAreaDto
+deactivate MP
+C --> U: listOfSensorsInHouseAreaDto
+deactivate C
+
+U->P: Ask for a period
+P-->U: Period of reading choosen
+U->C: getLastColdestTemperatureInSelectedPeriod (initDate, finalDate)
+activate C
+
+C->C: getSensorClosest (houseLocation,sensorType)
+ref over C: getSensorClosest
+
+C->S: getLastColdestTemperatureInSelectedPeriod (initDate, finalDate)
+activate S
+S->LR: getLastColdestDayInGivenPeriod (initDate, finalDate)
+activate LR
+
+LR-->S: reading
+deactivate LR
+S-->C: reading
+deactivate S
+
+C->MR: toDto (reading)
+activate MR
+MR-->C: readingDto
+deactivate MR
+C-->U: readingDto
+deactivate C
+U-->P: Show de last coldest day in period choosen
+deactivate M
+deactivate P
+
+@enduml
+

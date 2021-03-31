@@ -1,0 +1,56 @@
+@startuml
+actor Administrator
+participant "user Interface" as A
+participant "Controller" as B
+participant "ListOfHouseGrids" as X
+participant "HouseGrid" as C
+
+participant "Room" as E
+
+participant "Device" as G
+
+
+activate Administrator
+Administrator -> A: Nominal Power of Rooms or Devices
+A -> B: getHouseGridSelectedByUserInput(house,houseGridOption)
+activate B
+B -> X: getListOfHouseGrids(houseGridOption)
+activate X
+X -> C: getHouseGrid()
+activate C
+C --> X: houseGrid
+deactivate C
+X --> B: houseGrid
+deactivate X
+B --> A: houseGrid
+deactivate B
+
+ref over A: getRoomFromHouseGrid
+
+ref over A: getDeviceFromRoom
+
+
+
+A -> B: getNominalPowerOfRoom(houseGrid,room)
+activate B
+B -> E: getNominalPower()
+activate E
+E --> B: roomNominalPower
+deactivate E
+B -> B: totalNominalPower
+
+A -> B: getNominalPowerOfDevice(houseGrid,room,device)
+B -> G: getNominalPower()
+
+
+activate G
+G-->B:deviceNominalPower
+deactivate G
+B -> B: totalNominalPower
+B --> A: totalNominalPower
+deactivate B
+
+
+A --> Administrator: Nominal Power chosen of Rooms and Devices
+deactivate A
+@enduml

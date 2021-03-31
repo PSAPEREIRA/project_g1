@@ -1,0 +1,119 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+
+	}
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+
+class GetTheFirstHottestDayInGivenPeriodUI
+class GetTheFirstHottestDayInGivenPeriodController
+class House
+class GeographicArea
+class ListOfSensors
+class Sensor
+class ListOfReadings
+class MapperListOfSensors
+class MapperReading
+class ListOfSensorsDto
+class ReadingDto
+class SensorDto
+class Reading
+
+
+GetTheFirstHottestDayInGivenPeriodUI "              1" --> "            1" GetTheFirstHottestDayInGivenPeriodController
+GetTheFirstHottestDayInGivenPeriodController "1" -> "   1" House
+GetTheFirstHottestDayInGivenPeriodController "                                                                   1" ..> "          1" MapperListOfSensors
+GetTheFirstHottestDayInGivenPeriodController "           1" ..> "                    1" MapperReading
+MapperReading "       1" --> "                      1" ReadingDto
+MapperListOfSensors "              1" --> "            1" ListOfSensorsDto
+ListOfSensorsDto "           1" --> "                    0..*" SensorDto
+House "         1" --> "            1" GeographicArea
+GeographicArea "            1" --> "      1" ListOfSensors
+ListOfSensors "                                        1" --> "      0..*" Sensor
+Sensor "1" -> "1" ListOfReadings
+ListOfReadings " 1   " --> "  0..*" Reading
+
+
+GetTheFirstHottestDayInGivenPeriodUI : - house:House
+GetTheFirstHottestDayInGivenPeriodUI : - ctrl631:GetTheFirstHottestDayInGivenPeriodUI
+GetTheFirstHottestDayInGivenPeriodUI : + run ( );
+
+GetTheFirstHottestDayInGivenPeriodController : + getListOfSensorsInHouseArea ( );
+GetTheFirstHottestDayInGivenPeriodController : + getSensorClosest( );
+GetTheFirstHottestDayInGivenPeriodController : + getFirstHottestDayInGivenPeriodDto( );
+
+MapperListOfSensors : + {static} toDto ( );
+
+MapperReading : + {static} toDto ( );
+
+ListOfSensorsDto : + getListOfSensorDto ( );
+
+SensorDto : - geographicAreaType: String
+SensorDto : - location: Location
+SensorDto : - sensorType: SensorType
+SensorDto : - listOfReadings: ListOfReadings
+SensorDto : + getName( );
+SensorDto : + getLocation( );
+SensorDto : + getSensorType( );
+SensorDto : + getListOfReadings( );
+
+ReadingDto : - dateTime: LocalDateTime
+ReadingDto : - value: double
+ReadingDto : + getDateTime( )
+ReadingDto : + getValue( )
+
+House : + getSensorClosest ( );
+House : + getListOfSensorsInHouseArea ( );
+
+GeographicArea : - geographicAreaType:String
+GeographicArea : + getListOfSensors( );
+GeographicArea : + getSensorsClosestToHouseArea( );
+
+ListOfSensors : + getSensorClosestForReadings( );
+ListOfSensors : + getListOfSensorsOfTheSameType( );
+ListOfSensors : + getSensorByListResultAndListSameType( );
+
+Sensor : - geographicAreaType: String
+Sensor : - location: Location
+Sensor : - sensorType: SensorType
+Sensor : - installationDate: LocalDate
+Sensor : + calculateDistanceBetweenSensorToHouse( );
+Sensor : + checkSensorTypeToList( );
+Sensor : + getFirstHottestDayInGivenPeriod( );
+
+ListOfReadings : + getMaxTempOfDay( );
+ListOfReadings : + getFirstHottestDayInGivenPeriod( );
+ListOfReadings : + getListOfReadingsInSpecificPeriod( );
+ListOfReadings : + ListOfReadings ( );
+ListOfReadings : + getListOfMaximumValues ( );
+ListOfReadings : + getMostRecentLocalDateTimeInListOfReading( );
+ListOfReadings : + getReadingInSpecificLocalDateTime( );
+
+Reading : - value:double
+Reading : - dateTime:LocalDateTime
+Reading : + getValue( )
+Reading : + getDateTime( )
+Reading : + checkIfDateIsBefore( )
+Reading : + checkIfDateIsAfter( )
+Reading : + isValueOfDay( )
+
+
+@enduml
+

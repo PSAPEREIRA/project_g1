@@ -1,0 +1,46 @@
+@startuml
+participant "rGas:RoomGeoAreaService" as CTRL #DAE8FC
+participant "rs: RoomRepo" as RS #DAE8FC
+participant "room:Room" as R #DAE8FC
+participant "roomSensor:RoomSensor" as RSE #DAE8FC
+participant "list:ListOfReadings" as LR #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+CTRL -> RS : getInstancesWithTempHigherLowerComfort (roomDto, cat, \n initialDate, finalDate, "above", \n houseAreaDailyAverageTemperatureList)
+
+RS -> RS : getRoomByName ()
+
+RS -> R : getInstancesWithTempHigherLowerComfort\n(cat, initialDate, "above", \n houseAreaDailyAverageTemperatureList)
+R -> R : checkTemperatureSensorOfRoom ( )
+R -> RSE : getInstanceWithTempHigherLowerComfortOnRoomSensor\n(cat, initialDate, "above", \n houseAreaDailyAverageTemperatureList)
+RSE -> RSE: temperaturesByCat \n (cat, "above", \n houseAreaDaily\AverageTemperatureList)
+note left
+	This method returns the maximum temperature by category
+end note
+loop
+RSE -> LR : getReadingsOnDayHigherComfort \n(initialDate, maxTemp)
+RSE <-- LR : list of instants requested
+end
+R <-- RSE : list of instants requested
+RS <-- R : list of instants requested
+
+CTRL <-- RS : list of instants requested
+
+
+
+@enduml

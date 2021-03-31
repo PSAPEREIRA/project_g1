@@ -1,0 +1,89 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+	}
+
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+class DeactivateRemoveSensorInGeographicAreaUI
+class DeactivateRemoveSensorInGeographicAreaController
+class GeographicArea
+class ListOfSensors
+class Sensor
+class MapperListOfSensors
+class MapperListOfGeographicArea
+class ListOfSensorsDto
+class SensorDto
+class GeographicAreaDto
+class ListOfGeographicAreaDto
+
+
+DeactivateRemoveSensorInGeographicAreaUI "1" --> "1" DeactivateRemoveSensorInGeographicAreaController
+DeactivateRemoveSensorInGeographicAreaController "1" --> "1" ListOfGeographicArea
+DeactivateRemoveSensorInGeographicAreaController "1" ..> "1" MapperListOfGeographicArea
+DeactivateRemoveSensorInGeographicAreaController "1" ..> "1" MapperListOfSensors
+MapperListOfGeographicArea "1" --> "1" ListOfGeographicAreaDto
+MapperListOfSensors "1" --> "1" ListOfSensorsDto
+ListOfGeographicAreaDto "1" --> "0..*" GeographicAreaDto
+ListOfSensorsDto "1" --> "0..*" SensorDto
+
+ListOfGeographicArea "1"  -->  "0..*" GeographicArea
+GeographicArea "1" --> "1" ListOfSensors
+ListOfSensors "1" --> "0..*" Sensor
+
+DeactivateRemoveSensorInGeographicAreaUI : - deactivateRemoveSensorInGeographicAreaController:DeactivateRemoveSensorInGeographicAreaController
+DeactivateRemoveSensorInGeographicAreaUI : + runRemoval ( )
+DeactivateRemoveSensorInGeographicAreaUI : + removeSensorTask ( )
+
+DeactivateRemoveSensorInGeographicAreaController : - listOfGeographicArea:ListOfGeographicArea
+DeactivateRemoveSensorInGeographicAreaController : + getListOfGeographicAreaDto ( )
+DeactivateRemoveSensorInGeographicAreaController : + getListOfSensorsDtoFromGA( )
+DeactivateRemoveSensorInGeographicAreaController : + RemoveSensorFromGA( )
+
+MapperListOfSensors : + {static} toDto ( )
+
+MapperListOfGeographicArea : + {static} toDto ( )
+
+ListOfGeographicAreaDto : + getListOfGADto ( )
+ListOfGeographicAreaDto : + setListOfGADto ( )
+
+ListOfSensorsDto : + getListOfSensorDto ( )
+ListOfSensorsDto : + setListOfSensorDto ( )
+
+SensorDto : - iD:Long
+SensorDto : + getId( )
+SensorDto : + setId( )
+
+GeographicAreaDto : - id:Long
+GeographicAreaDto : + getID()
+GeographicAreaDto : + setID()
+
+ListOfGeographicArea : -listOfGeographicArea:List<GeographicArea>
+ListOfGeographicArea : +getGAbyID()
+
+GeographicArea : - geographicAreaType:String
+GeographicArea : + getListOfSensors( )
+
+ListOfSensors : + getSensorByID()
+ListOfSensors : + removeSensor()
+
+Sensor : - geographicAreaType:String
+Sensor : - id:Long
+
+@enduml

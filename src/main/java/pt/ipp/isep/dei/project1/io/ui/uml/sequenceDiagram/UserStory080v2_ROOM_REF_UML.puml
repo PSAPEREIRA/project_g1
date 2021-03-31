@@ -1,0 +1,33 @@
+@startuml
+
+participant "Spring\nApplication" as SP #DAE8FC
+
+participant "ListOfRooms" as LHG #DAE8FC
+participant "Room" as HG #DAE8FC
+participant "repository:Room" as RH #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+SP -> LHG: addAllListOfRooms\nToRepository( );
+
+loop List of Rooms Size
+LHG -> HG: r1:getRoom
+
+HG -> RH: save(r1);
+end
+
+@enduml

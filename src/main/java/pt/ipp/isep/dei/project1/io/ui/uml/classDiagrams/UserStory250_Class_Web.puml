@@ -1,0 +1,44 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+
+	}
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+class GetListOfAllSensorsInARoomRestController
+class MapperListOfRoomSensor
+class RoomDomainService
+class MapperRoom
+
+
+GetListOfAllSensorsInARoomRestController "1  " --> "1  " RoomDomainService
+RoomDomainService "1" --> "1   " MapperRoom
+RoomDomainService "1    " --> "1 " MapperListOfRoomSensor
+
+GetListOfAllSensorsInARoomRestController : + getListOfAllSensorsInARoom ( )
+
+
+
+MapperListOfRoomSensor : + toDto ( )
+
+MapperRoom : + toDto ( )
+
+RoomDomainService : + getRoomByNameDto ( )
+RoomDomainService : + getListOfAllSensorsInARoomDto ( )
+
+@enduml

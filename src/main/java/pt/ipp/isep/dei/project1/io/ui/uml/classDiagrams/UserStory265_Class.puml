@@ -1,0 +1,82 @@
+@startuml
+
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+	FontSize 16
+
+}
+
+skinparam stereotypeCBackgroundColor White
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+skinparam Class {
+    HeaderBackgroundColor #DAE8FC
+	ArrowColor Black
+	BorderColor 6C8EBF
+	FontSize 15
+	FontColor Black
+	style Frame
+	FontStyle bold
+	FontName Arial Rounded MT Bold
+}
+
+hide circle
+
+class ImportSensorsReadingsUI
+class ImportSensorsReadingsController
+interface FileReader
+class House
+class CoreProgramFromJson
+class CoreProgramFromXml
+class CoreProgramFromCsv
+
+
+ImportSensorsReadingsController "1  " --> "1  " FileReader
+
+
+FileReader "1         " <.. "1  " CoreProgramFromJson
+FileReader "1  " <.. "1  " CoreProgramFromXml
+FileReader "1  " <.. "1           " CoreProgramFromCsv
+
+ImportSensorsReadingsUI "1" -> "1" ImportSensorsReadingsController
+
+
+ImportSensorsReadingsController "1 " -> " 1" House
+
+
+
+ImportSensorsReadingsUI : - House: house
+ImportSensorsReadingsUI : +run( )
+
+House : - House: List<Sensors>
+House : + getAllSensors( )
+
+
+interface FileReader <<interface>> {
++ getReaderType( )
++ importReadingsOfSensor( String path )
+}
+
+
+ImportSensorsReadingsController : {abstract}
+ImportSensorsReadingsController : + addReadingsToSensors(reader, path)
+ImportSensorsReadingsController : + setReadingsBySensorIDescription(listOfAreaSensors, readingDtoList)
+ImportSensorsReadingsController : + getListOfReadersOfSensorReadings( )
+ImportSensorsReadingsController : + checkSensorStatusInDate(areaSensor, localDate)
+ImportSensorsReadingsController : + getFh(logger)
+
+CoreProgramFromXml : + importReadingsOfSensor(path)
+CoreProgramFromJson : + importReadingsOfSensor(path)
+CoreProgramFromCsv : + importReadingsOfSensor(path)
+
+
+@enduml

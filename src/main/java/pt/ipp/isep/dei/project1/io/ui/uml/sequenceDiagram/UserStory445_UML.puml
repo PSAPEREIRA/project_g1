@@ -1,0 +1,101 @@
+@startuml
+
+actor "PowerUser/Room Owner" as PU #DAE8FC
+participant "MainUI" as MUI #DAE8FC
+participant "rclUi:RoomComfortLevelUI" as UI #DAE8FC
+participant "rclCtrl:RoomComfortLevelCTRL" as C #DAE8FC
+participant "rGas:RoomGeoAreaService" as CTRL #DAE8FC
+participant "gar: GeographicAreaRepo" as GAS #DAE8FC
+participant "ga:GeographicArea" as GA #DAE8FC
+participant "rs: RoomRepo" as RS #DAE8FC
+participant "room:Room" as R #DAE8FC
+participant "roomSensor:RoomSensor" as RSE #DAE8FC
+participant "list:ListOfReadings" as LR #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+MUI-> PU: Display Menu
+PU -> MUI : Want to have a list of the instants \n in which the temperature rose above the comfort level \n in a given time interval and category
+
+create UI
+
+MUI -> UI : create ( )
+MUI -> UI : run (house, "above")
+
+create C
+
+UI -> C : create ( )
+
+create CTRL
+
+C -> CTRL : create ( )
+
+UI ->C : checkGeographicAreaOfTheHouse (house)
+UI <-- C : True
+UI ->C : checkTemperatureSensorsOfHouseArea (house)
+UI <-- C : True
+
+PU <- UI : Select Room
+PU --> UI : Room Selected
+
+UI ->C : checkTemperatureSensorsOfTheRoom (roomDto)
+UI <-- C : True
+
+PU <- UI : Select Category
+PU --> UI : Category Selected (cat)
+PU <- UI : Insert Time Period
+PU --> UI : Time period (Initial/Final Date)
+
+UI -> C : getInstancesWithTemperatureHigherLowerComfortLevel \n (roomDto, cat, "above", initialDate, finalDate)
+C -> CTRL : getInstancesWithTemperatureHigherLowerComfortLevel \n (roomDto, cat, "above", initialDate, finalDate)
+note left
+	Option variable refers to a String constant
+end note
+CTRL -> GAS : getAverageDailyTemperatureHouseArea \n (houseGeoAreaName, houseLocation, initialDate, finalDate)
+
+loop through time period inserted by user
+GAS -> GA : getAverageDailyTemperatureInHouseArea \n (houseLocation, sensorType, initialDate)
+GAS <-- GA : dailyAverageTemperature
+end
+
+CTRL <- GAS : houseAreaDailyAverageTemperatureList
+
+CTRL -> RS : getInstancesWithTempHigherLowerComfort (roomDto, cat, initialDate, finalDate, "above", houseAreaDailyAverageTemperatureList)
+
+RS -> RS : getRoomByName ()
+
+RS -> R : getInstancesWithTempHigherLowerComfort\n(cat, initialDate, "above", houseAreaDailyAverageTemperatureList)
+R -> R : checkTemperatureSensorOfRoom ( )
+R -> RSE : getInstanceWithTempHigherLowerComfortOnRoomSensor\n(cat, initialDate, "above", houseAreaDailyAverageTemperatureList)
+RSE -> RSE: temperaturesByCat \n (cat, "above", houseAreaDailyAverageTemperatureList)
+note left
+	This method returns the maximum temperature by category
+end note
+loop
+RSE -> LR : getReadingsOnDayHigherComfort \n(initialDate, minTempByCat)
+RSE <-- LR : list of instants requested
+end
+R <-- RSE : list of instants requested
+RS <-- R : list of instants requested
+
+CTRL <-- RS : list of instants requested
+C <-- CTRL : list of instants requested
+UI <-- C : list of instants requested
+PU <-- UI : list of instants requested
+
+@enduml

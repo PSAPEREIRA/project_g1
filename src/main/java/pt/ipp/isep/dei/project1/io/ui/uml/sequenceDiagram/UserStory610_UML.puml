@@ -1,0 +1,67 @@
+@startuml
+
+title [U610]: Get Maximum Temperature on Room in a certain day
+participant "HTTP CLIENT" as PST #DAE8FC
+participant "DispatcherServlet" as SR #DAE8FC
+participant "RestController" as ctrl #DAE8FC
+participant "RoomDS" as DS #DAE8FC
+participant "Room" as R #DAE8FC
+participant "RoomSensor" as RS #DAE8FC
+participant "Reading" as RD #DAE8FC
+
+
+skinparam title {
+	BorderColor 6C8EBF
+
+}
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+PST -> SR : GET ► /house-configuration/maximum-temperature
+
+SR -> ctrl: getMaximumRoomTemperature (room-name,date)
+
+alt room not null
+ctrl -> DS: getRoomByNameDto(room-name)
+
+DS-->ctrl: roomDto
+else room is null
+ctrl -> SR: new ResponseEntity <> (HTTPSTATUS.NOT_FOUND)
+end
+
+
+
+alt No Temp Sensor in room
+ctrl ->DS:checkListOfSensorsEmpty(room-name)
+DS-->ctrl: boolean
+ctrl -> SR: new ResponseEntity <> (No sensors in this room,HTTPSTATUS.OK)
+else Room got Temp Sensor
+
+ctrl -> DS: getMaxRoomTemperature(roomDto,date)
+
+DS -> R: getRoomByName(roomName)
+
+R -> RS: getMaxRoomTemperature(date)
+
+RS -> RD: getMaxTempOfDay(date)
+
+RD--> ctrl: [result]
+
+ctrl--> SR: new ResponseEntity <> ((result) ,HttpStatus.OK);
+
+SR-->PST: new ResponseEntity <> ((result) ,HttpStatus.OK);
+end
+@enduml

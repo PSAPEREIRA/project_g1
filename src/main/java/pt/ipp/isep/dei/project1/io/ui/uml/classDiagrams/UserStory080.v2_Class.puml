@@ -1,0 +1,96 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+	}
+
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+
+
+class SpringRepository
+class House << root >>
+class repositoryHouse
+
+class ListOfHouseGrid
+class HouseGrid << root >>
+class repositoryHouseGrid
+
+class ListOfRooms
+class Room << root >>
+class repositoryRoom
+
+class ListOfSensors
+class Sensor << root >>
+class repositorySensor
+
+SpringRepository "1" -> "1" House
+House "1" --> "1" repositoryHouse
+
+SpringRepository "1" --> "1" ListOfHouseGrid
+ListOfHouseGrid "*" -> "1" HouseGrid
+ListOfHouseGrid "*" --> "1" repositoryHouseGrid
+
+class SpringRepository {
+- repository: House
+- repository: HouseGrid
+- repository: Room
+- repository: Sensor
++ addHouseToRepository ( );
++ addListOfHouseGridToRepository ( );
++ addListOfRoomsToRepository ( );
++ addListOfSensorsToRepository ( );
+}
+
+class House {
+- id
+- type
+- Location
+- list<Reading>
+- GeographicArea
++ save(house);
+}
+
+class ListOfHouseGrid {
+- List<HouseGrid>
++ hg1: getHouseGrid( )
++ save(hg1)
+}
+
+SpringRepository "1" --> "1" ListOfRooms
+ListOfRooms "*" -> "1" Room
+ListOfRooms "*" --> "1" repositoryRoom
+
+class ListOfRooms {
+- List<Room>
++ r1: getRoom( )
++ save(r1)
+}
+
+SpringRepository "1" --> "1" ListOfSensors
+ListOfSensors "*" -> "1" Sensor
+ListOfSensors "*" --> "1" repositorySensor
+
+class ListOfSensors {
+- List<Sensor>
++ s1: getSensor( )
++ save(s1)
+}
+
+
+@enduml

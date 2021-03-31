@@ -1,0 +1,72 @@
+@startuml
+
+actor "Administrator" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant ":ImportReadingsFromFileUI" as U #DAE8FC
+participant ":ImportReadingsFromFileController" as C #DAE8FC
+participant ":Configurations" as CO #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+P -> M: Import Readings of Geographic Area Sensors
+activate P
+create U
+M -> U: create (listOfGeoAreas)
+
+create C
+U -> C: create (listOfGeoAreas)
+M -> U: run ( )
+activate M
+activate U
+
+U -> C: getListOfReadersOfSensorReadings( )
+activate C
+
+
+C -> CO: readListOfFileReadersOfSensorReadings( )
+activate CO
+CO -> C: List<String>
+deactivate CO
+C -> U: listOfReaders
+deactivate C
+
+
+U --> P: Choose the type of file
+P --> U: Type of file chosen
+
+alt JSON
+
+ref over U: addReadingsToSensors(reader, path.json)
+
+else XML
+
+ref over U: addReadingsToSensors(reader, path.xml)
+
+else CSV
+
+ref over U: addReadingsToSensors(reader, path.csv)
+
+P -[#white]> CO:
+
+deactivate U
+deactivate M
+deactivate P
+
+end
+
+@enduml

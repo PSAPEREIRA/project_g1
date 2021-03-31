@@ -1,0 +1,23 @@
+@startuml
+USER -> UI: getCurrentTemperatureOfRoom()
+
+UI -> Controller: getCurrentRoomTemperature (Room)
+
+Controller -> Room: getCurrentTemperature()
+
+Room -> Sensor: getmListOfReadings()
+
+Sensor -> ListOfReadings: getmListOfReading()
+Sensor <-- ListOfReadings: getListOfReading() response
+Room <-- Sensor: getListOfReadings response()
+
+Controller <-- Room: getCurrentTemperature() response
+
+UI <-- Controller: getCurrentRoomTemperature() response
+
+
+USER <-- UI: currentTemperatureOfRoom() response
+
+
+
+@enduml

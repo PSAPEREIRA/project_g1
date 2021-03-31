@@ -1,0 +1,12 @@
+@startuml
+USER -> UI: specifyCharacteristicsThatSensorsCanRead
+UI -> CONTROLLER: specifyTheCharacteristics (String type)
+
+CONTROLLER -> ListOfMeteoTypes: newSensorType (String type)
+CONTROLLER <-- ListOfMeteoTypes: newSensorType response
+
+UI <-- CONTROLLER: specifyTheCharacteristics response
+
+
+USER <-- UI : return specifyCharacteristicsThatSensorsCanRead response
+@enduml

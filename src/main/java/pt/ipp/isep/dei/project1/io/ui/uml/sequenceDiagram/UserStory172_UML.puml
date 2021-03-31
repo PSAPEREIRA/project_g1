@@ -1,0 +1,21 @@
+
+@startuml
+actor Administrator
+participant "user Interface" as A
+participant "Controller" as B
+participant "HouseGrid" as C
+activate Administrator
+Administrator -> A: Total nominal power connected to a house grid
+activate A
+A -> B: getNominalPower(houseGrid)
+activate B
+B -> C: getNominalPower()
+ref over C: Total Nominal Power
+activate C
+C --> B: houseGridNominalPower
+deactivate C
+B --> A: houseGridTotalNominalPower
+deactivate B
+A --> Administrator: Total nominal power connected to a home grid
+deactivate A
+@enduml

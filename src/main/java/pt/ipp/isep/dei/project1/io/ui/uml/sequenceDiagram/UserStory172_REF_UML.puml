@@ -1,0 +1,28 @@
+
+@startuml
+
+participant "HouseGrid" as A
+participant "ListOfRooms" as B
+participant "Room" as C
+participant "ListOfDevices" as D
+participant "Device" as E
+
+activate A
+A -> B: getmListOfRooms()
+activate B
+B --> A: room
+deactivate B
+A -> C: getNominalPower()
+activate C
+C -> D:getmListOfDevices()
+activate D
+D -> E:getmNominalPower()
+activate E
+E--> D: deviceNominalPower
+deactivate E
+D--> C: deviceNominalPower
+deactivate D
+C --> A: roomNominalPower
+deactivate C
+deactivate A
+@enduml

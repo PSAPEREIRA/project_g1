@@ -1,0 +1,62 @@
+@startuml
+
+participant "ui:ImportSensorsToRoomUI" as U #DAE8FC
+participant "ctrl:ImportSensorsToRoomController" as C #DAE8FC
+participant "reader:JsonReader" as J #DAE8FC
+participant "file:File" as F #DAE8FC
+participant "objectMapper:ObjectMapper" as O #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+U->C: importSensorsToHouseRooms(path)
+
+activate C
+
+C->J: importSensorsToHouseRooms(path)
+
+activate J
+
+create F
+J->F: create (path)
+
+create O
+J->O: create ( )
+
+J->O: readValue(file, RoomSensorsFromJson.class)
+
+activate O
+
+O-->J:  roomSensorsFromJson
+
+deactivate O
+
+J-->C: roomSensorsFromJson
+
+deactivate J
+
+C->C: setSensorsToRooms(listOfRooms,roomSensorsFromJson)
+
+note left
+	This method sets the imported
+	sensors to model house rooms.
+end note
+
+C-->U: Information read by imported file
+
+deactivate C
+
+@enduml

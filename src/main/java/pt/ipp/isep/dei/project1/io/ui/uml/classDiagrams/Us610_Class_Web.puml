@@ -1,0 +1,61 @@
+@startuml
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+	}
+
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+
+class GetMaximumTemperatureInRoomRestController {
+-RoomDomainService roomDs
++ getMaximumRoomTemperature ( roomName, date)
+}
+
+class RoomDomainService {
+-List<Room> roomList
+-RoomRepository RoomRepo
++ getMaximumRoomTemperature ( roomName, date)
+}
+
+interface RoomRepository{
++ List<Room> findAll( )
+}
+
+class Room{
+-String name
+-List<RoomSensor> sensorList
+}
+
+class RoomSensor{
+-String name
+-List<Readings> readingList
+}
+
+class Reading{
+-LocalDateTime dateTime
+-double value
+-String unit
+}
+
+GetMaximumTemperatureInRoomRestController "1" --> "1" RoomDomainService
+RoomDomainService "1" --> "*" Room
+RoomDomainService "1" --> "*" RoomRepository
+Room "1" -->"*" RoomSensor
+RoomSensor "1" -->"*" Reading
+
+@enduml

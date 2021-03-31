@@ -1,0 +1,57 @@
+@startuml
+actor "Administrator" as P #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "Spring\nApplication" as SP #DAE8FC
+participant "uiSaveGeo:CreateAndSave\nGeographic\nAreaUI" as UI #DAE8FC
+participant "ctrSaveGeo:CreateAndSave\nGeographic\nAreaController" as CRT #DAE8FC
+participant "ListOf\nGeographic\nArea" as LGA #DAE8FC
+participant "GeographicArea" as GA #DAE8FC
+participant "repository:Geographic\nAreaRepository" as RP #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate M
+activate SP
+
+M -> SP: run(application.class)
+
+activate P
+M -> SP: application(GeographicArea\nRepository);
+M -> P : Show Menu
+P -> M: Add Geographic Areas\n and their Sensor(s)\n and Readings to Database
+deactivate P
+M -> UI: SaveGeographic\nAreaToDataBase(repository)
+activate UI
+UI -> CRT : saveGeo( );
+deactivate UI
+activate CRT
+CRT -> LGA: addAllGeoToRepository();
+deactivate CRT
+activate LGA
+
+loop List of Geographic Area Size
+LGA-> GA: ga1:getGeographicArea( );
+LGA -> RP: save(ga1)
+end
+deactivate LGA
+
+
+
+
+
+@enduml

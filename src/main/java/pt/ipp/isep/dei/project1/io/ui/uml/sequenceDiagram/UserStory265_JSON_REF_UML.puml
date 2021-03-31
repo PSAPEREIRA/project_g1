@@ -1,0 +1,44 @@
+@startuml
+
+actor "Administrator" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant ":ImportSensorReadingsUI" as U #DAE8FC
+participant ":ImportSensorReadingsController" as C #DAE8FC
+participant ":House" as H #DAE8FC
+participant "reader:JsonReader" as COX #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+U -> P: Request file path
+P-->U: file path
+U->C:addReadingsToSensorsOfHouse(reader,path)
+activate C
+C->COX:importReadingsOfSensor(path)
+activate COX
+COX-->C:listOfReadingsDto
+deactivate COX
+C -> H: getAllSensors( )
+activate H
+H --> C: listOfAreaSensors
+deactivate H
+C -> C: setReadingsBySensorIDescription( )
+C --> U: number of lines added
+deactivate C
+U --> P: number of lines added
+
+@enduml

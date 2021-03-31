@@ -1,0 +1,58 @@
+@startuml
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+participant "UI" as UI #DAE8FC
+participant "Controller" as CR #DAE8FC
+participant "House" as H #DAE8FC
+participant "ListOfHouseGrid" as LG #DAE8FC
+participant "ListOfRooms" as LR #DAE8FC
+participant "ListOfDevices" as LD #DAE8FC
+
+
+UI -> CR: List of Devices in a Grid group by type include location
+activate UI
+activate CR
+CR -> H: getListOfHouseGrid()
+
+activate H
+CR <-- H: getListOfHouseGrid()
+deactivate H
+
+H -> LG: getListOfRoomsAttachedToHouseGrid()
+
+activate LG
+H <-- LG: getListOfRoomsAttachedToHouseGrid()
+deactivate LG
+
+LG -> LR: getListOfRooms()
+activate LR
+LG <-- LR: getListOfRooms()
+deactivate LR
+
+LR -> LD: getListOfDevices()
+
+activate LD
+LR <-- LD: getListOfDevices()
+deactivate LD
+
+CR <-- LD: listOfDeviceType()
+deactivate CR
+UI <-- CR: List of Devices in a Grid group by type include location
+deactivate UI
+
+@enduml

@@ -1,0 +1,93 @@
+@startuml
+
+actor "Administrator" as P #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "deaRemSensorUi:DeactivateRemoveSensorInGeographicAreaUI" as U #DAE8FC
+participant "deaRemSensorCtrlr:DeactivateRemoveSensorInGeographicAreaController" as C #DAE8FC
+participant "listOfGeographicArea:ListOfGeographicArea" as LGA #DAE8FC
+participant "MapperListOfGeographicArea" as MGA #DAE8FC
+participant "geographicArea:GeographicArea" as GA #DAE8FC
+participant "listOfAreaSensor:ListOfSensor" as LS #DAE8FC
+participant "MapperSensorsList" as MSL #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate P
+
+M -> P: Show menu
+activate M
+P -> M: RemoveSensorFromGeographicArea
+
+create U
+M -> U : create(ListOfGeographicArea)
+
+create C
+U -> C : create (ListOfGeographicArea)
+
+M -> U: run( );
+activate U
+U -> C: getListOfGeographicAreaDto ()
+activate C
+C -> LGA: getListOfGeographicArea()
+activate LGA
+LGA --> C: listOfGeographicArea
+deactivate LGA
+C->MGA:toDto (listOfGeographicAreas)
+activate MGA
+MGA-->C:listOfGeographicAreaDto
+deactivate MGA
+C --> U: listOfGeographicAreaDto
+deactivate C
+
+U -> P:Request Geographic Area
+P --> U: geographicArea selected
+
+U -> C: getListOfSensorsDto ()
+activate C
+C->C: getGeographicAreaDtoByID(Id)
+C -> GA: getListOfSensors(GeographicArea)
+activate GA
+GA --> C: listOfAreaSensors
+deactivate GA
+C->MSL:toDto (listOfAreaSensors)
+activate MSL
+MSL-->C:listOfSensorDto
+deactivate MSL
+C --> U: listOfAreaSensorsDto
+deactivate C
+
+U -> P:Request areaSensor
+P --> U: areaSensor selected
+
+
+U -> C: removeSensorFromGA(Sensor)
+activate C
+
+C->C: getSensorDtoByID(Id)
+C->LS: removeSensor(areaSensor)
+activate LS
+LS --> C: listOfAreaSensor
+deactivate LS
+C -->U: listOfAreaSensor
+deactivate C
+U-->M: listOfAreaSensor
+deactivate U
+
+M-->P: listOfAreaSensor
+deactivate M
+@enduml

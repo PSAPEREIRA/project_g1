@@ -1,0 +1,15 @@
+startuml
+USER -> UI: Add New Power Source
+UI -> CONTROLLER: Add New Power Source()
+CONTROLLER -> LISTOFPOWERSOURCES : newPowerSource = newPowerSource(PowerSource)
+LISTOFPOWERSOURCES ->HOUSEGRID: AddPowerSource()
+
+USER <-- UI: Ask Details Of Power Source(Name, MaxPower)
+
+USER -> UI: Introduce Details Of Power Source(Name, MaxPower)
+UI -> CONTROLLER: NewPowerSource
+CONTROLLER -> LISTOFPOWERSOURCES : Add newPowerSource
+
+USER <-- HOUSEGRID : return newPowerSource
+
+@enduml

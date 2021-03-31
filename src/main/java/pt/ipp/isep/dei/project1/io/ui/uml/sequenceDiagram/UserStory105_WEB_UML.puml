@@ -1,0 +1,43 @@
+@startuml
+
+participant "Postman" as P #DAE8FC
+participant "Spring URL Resolver" as S #DAE8FC
+participant "us105:AddNewRoomToTheHouseControllerRest" as C #DAE8FC
+participant "RoomRepo" as RRP #DAE8FC
+participant "Room" as R #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+activate P
+P -> S : POST ► localhost:8080/room-configuration/new
+activate S
+S-> C : createNewRoom (roomDto)
+deactivate S
+activate C
+C -> RRP : newRoom(roomDto)
+activate RRP
+create R
+RRP -> R : create (room)
+RRP -> RRP :addRoom(room)
+RRP --> C :true/false
+deactivate RRP
+C --> P :room added
+deactivate C
+
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+actor Administrator
+participant "User Interface" as A
+participant "Controller" as B
+participant ":House" as C
+participant "Metered" as D
+participant "List of Readings" as H
+
+activate Administrator
+Administrator -> A: Get Data Series
+
+A-->Administrator: Show object to select Data Series From (Device/Room/Grid)
+
+Administrator -> A: Select intended object (Device/Room/Grid - Type of Metered)
+
+A -> B: getAllSelected(type of metered)
+activate C
+B->C: obj = getAllSelected(type of metered)
+deactivate C
+
+B-->A: Show options (type of metered)
+
+Administrator->A: Select option (metered)
+
+A-->Administrator: Ask initial date
+Administrator->A: Insert data for initial date
+A-->Administrator: Ask end date
+Administrator->A: Insert data for end date
+
+A-> B: getReadingsOnMeteredOnPeriod(Metered, dtStart, dtEnd)
+activate D
+B->D: getDataSeries(dtStart, dtEnd)
+deactivate D
+activate H
+D->H: getListOfReadings
+
+H->H: cutDuplicates & SumValues
+
+H-->B: Show Data
+deactivate H
+B-->A: Show Data
+
+A-->Administrator: Show Data Series - Date and Time of Readings
+deactivate Administrator
+@enduml

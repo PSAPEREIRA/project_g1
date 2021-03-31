@@ -1,0 +1,55 @@
+@startuml
+actor Administrator
+
+participant "Interface" as A
+participant "c1: Controller" as B
+participant "h1: House" as C
+participant "s1: Sensor" as D
+
+Administrator -> A: List of All Sensors in a Room
+
+activate A
+
+A -> B: getListOfRoomsInAHouse(h1)
+
+activate B
+
+
+note left: Validations
+
+B -> C: getListOfRoomsOfHouse()
+
+activate C
+
+C --> B: List of Rooms
+
+deactivate C
+
+B --> A: List of Rooms
+
+deactivate B
+
+A -> B: getListOfSensorsInARoom(r1)
+
+activate B
+
+note left: Validations
+
+B -> D: getListOfSensors()
+
+activate D
+
+D --> B: List of Sensors
+
+deactivate D
+
+B --> A: List of Sensors
+
+deactivate B
+
+
+A -> Administrator: List of All Sensors in a Room
+
+deactivate A
+
+@enduml

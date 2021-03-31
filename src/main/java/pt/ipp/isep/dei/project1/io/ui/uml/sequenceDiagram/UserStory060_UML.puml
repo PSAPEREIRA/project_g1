@@ -1,0 +1,50 @@
+@startuml
+
+actor "Power User" as P
+participant ":MainUI" as M
+participant ":GetReadingsOfCloserSensorUI" as A
+participant ":GetReadingsOfCloserSensorController" as B
+participant "House" as C
+participant "Geographic Area" as D
+participant "ListOfSensors" as E
+participant "Sensor" as F
+participant "Location" as G
+participant "ListOfReadings" as H
+
+activate P
+activate M
+M -> P: Show menu
+deactivate M
+P -> M: Readings of Closer Sensor
+activate M
+create A
+M -> A : create (House)
+M -> A: getReadingsOfCloserSensor
+activate A
+create B
+A -> B: closestSensorInGAFromHouse(House)
+deactivate A
+activate B
+B -> C: getGeographicAreaOfHouse();
+activate C
+B <-- C: getGeographicAreaOfHouse();
+B -> D: getmListOfSensors();
+B <-- D: getmListOfSensors();
+activate G
+B -> G: calculateDistanceBetweenSensorToHouse(Sensor)
+G -> G
+B <-- G: return one or List of Sensors
+deactivate G
+activate H
+B -> H: GetLastReadingsOfCloserSensor ();
+H -> H
+B <--H: return getSensorClosestToTypeAndReadings ();
+A <--B: return getSensorClosestToTypeAndReadings ();
+P <--A: return getSensorClosestToTypeAndReadings ();
+
+
+
+
+
+
+@enduml

@@ -1,0 +1,107 @@
+@startuml
+actor "Administrator" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant ":GetFirstHottestDayInGivenPeriodUI" as U #DAE8FC
+participant ":GetFirstHottestDayInGivenPeriodController" as C #DAE8FC
+participant ":MapperSensorsList" as MP #DAE8FC
+participant "sensorClosest:Sensor" as S #DAE8FC
+participant ":ListOfReading" as LR #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate P
+
+
+M -> P: Show menu
+activate M
+P -> M: Get the first hottest day in given period
+
+create U
+M -> U : create (house)
+
+create C
+U -> C : create (house)
+
+M -> U: run( );
+activate U
+U -> C: getListOfSensorsInHouseArea (listOfAreaSensors)
+activate C
+C -> MP: getListOfSensorsInHouseArea (listOfAreaSensors)
+activate MP
+MP --> C: listOfSensorsInHouseAreaDto
+deactivate MP
+C --> U: listOfSensorsInHouseAreaDto
+deactivate C
+
+U->P: Ask for a period
+P-->U: Period of reading chosen
+U->C: getFirstHottestTemperatureInSelectedPeriod (initDate, finalDate)
+activate C
+
+C->C: getSensorClosest (houseLocation,sensorType)
+ref over C: getSensorClosest
+
+C->S: getFirstHottestTemperatureInSelectedPeriod (initDate, finalDate)
+activate S
+S->LR: getFirstHottestDayInGivenPeriod (initDate, finalDate)
+activate LR
+LR-->S: reading
+deactivate LR
+S-->C: reading
+deactivate S
+
+C-->C: readingDto
+C-->U: readingDto
+deactivate C
+U-->P: Show de first hottest day in period choosen
+deactivate M
+deactivate P
+
+@enduml
+
+@startuml
+USER -> UI: currentTemperatureOfHouse
+
+UI -> Controller: sensorClosestToTheHouse (houseGridService)
+
+Controller -> House: getMinDistanceBetweenSensorToHouse (houseGridService)
+
+House -> Sensor: getLocation
+House <-- Sensor: getLocation response
+
+
+House -> Location: calculateDistanceBetweenTwoPoints (houseLocation, sensorLocation)
+House <-- Location: calculateDistanceBetweenTwoPoints response
+
+Controller <-- House: getMinDistanceBetweenSensorToHouse response
+
+UI -> Controller: getCurrentTemperature (sensorClosest)
+
+Controller -> Sensor: getListOfReading
+Sensor -> ListOfReading: getLastReading
+Sensor <-- ListOfReading: getLastReading response
+Controller <-- Sensor: getListOfReading response
+
+UI <-- Controller: getCurrentTemperature response
+
+
+USER <-- UI: currentTemperatureOfHouse response
+
+
+
+@enduml

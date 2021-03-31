@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="78d45c4a-63d4-4e99-8a1a-17f688a86096" name="Default Changelist" comment="New Remote">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipp/isep/dei/project1/controllers/device/AddNewDeviceToRoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipp/isep/dei/project1/controllers/device/AddNewDeviceToRoomController.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>avgOfRainfallInTimeInterval</find>
+      <find>RF12345</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="UPDATE_TYPE" value="MERGE" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1YiFqyJi1FnfypQYj9Eq8SVTFgh" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="last_opened_file_path" value="C:/Documents and Settings" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="pt.ipp.isep.dei.project1.controllersweb.house" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\andre\Documents\project_g1\src\test" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.MainClass (1)">
+    <configuration name="RainfallInHouseAreaRestCtrlTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="newGo_22_06" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipp.isep.dei.project1.controllersweb.housemonitoring.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipp.isep.dei.project1.controllersweb.housemonitoring" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipp.isep.dei.project1.controllersweb.housemonitoring.RainfallInHouseAreaRestCtrlTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RainfallInHouseAreaRestCtrlTest.getAverageRainfall" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="newGo_22_06" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipp.isep.dei.project1.controllersweb.housemonitoring.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipp.isep.dei.project1.controllersweb.housemonitoring" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipp.isep.dei.project1.controllersweb.housemonitoring.RainfallInHouseAreaRestCtrlTest" />
+      <option name="METHOD_NAME" value="getAverageRainfall" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RoomComfortLevelRestControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="newGo_22_06" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipp.isep.dei.project1.controllersweb.house.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipp.isep.dei.project1.controllersweb.house" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipp.isep.dei.project1.controllersweb.house.RoomComfortLevelRestControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RoomComfortLevelRestControllerTest.getInstancesWithTemperatureHigherLowerComfortLevelNoReadings" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="newGo_22_06" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipp.isep.dei.project1.controllersweb.house.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipp.isep.dei.project1.controllersweb.house" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipp.isep.dei.project1.controllersweb.house.RoomComfortLevelRestControllerTest" />
+      <option name="METHOD_NAME" value="getInstancesWithTemperatureHigherLowerComfortLevelNoReadings" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainClass (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipp.isep.dei.project1.io.ui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="pt.ipp.isep.dei.project1.io.ui.MainClass" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8.0_201" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.RainfallInHouseAreaRestCtrlTest" />
+      <item itemvalue="JUnit.RainfallInHouseAreaRestCtrlTest.getAverageRainfall" />
+      <item itemvalue="JUnit.RoomComfortLevelRestControllerTest" />
+      <item itemvalue="JUnit.RoomComfortLevelRestControllerTest.getInstancesWithTemperatureHigherLowerComfortLevelNoReadings" />
+      <item itemvalue="Spring Boot.MainClass (1)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.MainClass (1)" />
+        <item itemvalue="JUnit.RoomComfortLevelRestControllerTest.getInstancesWithTemperatureHigherLowerComfortLevelNoReadings" />
+        <item itemvalue="JUnit.RoomComfortLevelRestControllerTest" />
+        <item itemvalue="JUnit.RainfallInHouseAreaRestCtrlTest.getAverageRainfall" />
+        <item itemvalue="JUnit.RainfallInHouseAreaRestCtrlTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="78d45c4a-63d4-4e99-8a1a-17f688a86096" name="Default Changelist" comment="" />
+      <created>1561220237648</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1561220237648</updated>
+      <workItem from="1561220239015" duration="1101000" />
+      <workItem from="1561230035506" duration="140000" />
+      <workItem from="1561319840423" duration="8802000" />
+      <workItem from="1561384966029" duration="12289000" />
+      <workItem from="1561402074266" duration="4989000" />
+      <workItem from="1561411213900" duration="3161000" />
+      <workItem from="1583417717356" duration="336000" />
+      <workItem from="1583418604408" duration="664000" />
+      <workItem from="1584029068327" duration="1534000" />
+      <workItem from="1585581348369" duration="3399000" />
+      <workItem from="1593358079881" duration="1167000" />
+      <workItem from="1595613222735" duration="2010000" />
+    </task>
+    <task id="LOCAL-00001" summary="project without tests">
+      <created>1561220480749</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1561220480749</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Updating properties">
+      <created>1561323839036</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1561323839036</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added method getGeoLocationOfHouse to ConfigureTheLocationOfTheHouseControllerRest class and tests">
+      <created>1561324993696</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1561324993696</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Updating ConfigureTheLocationOfTheHouseControllerRest.java">
+      <created>1561327073415</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1561327073415</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Updating output on Rainfall">
+      <created>1561335804903</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1561335804903</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Updating output on Rainfall">
+      <created>1561398751303</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1561398751303</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updating output on Rainfall">
+      <created>1561401767275</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1561401767275</updated>
+    </task>
+    <task id="LOCAL-00008" summary="New Remote">
+      <created>1595614086629</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1595614086629</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="project without tests" />
+    <MESSAGE value="Updating properties" />
+    <MESSAGE value="Added method getGeoLocationOfHouse to ConfigureTheLocationOfTheHouseControllerRest class and tests" />
+    <MESSAGE value="Updating ConfigureTheLocationOfTheHouseControllerRest.java" />
+    <MESSAGE value="Updating output on Rainfall" />
+    <MESSAGE value="New Remote" />
+    <option name="LAST_COMMIT_MESSAGE" value="New Remote" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="452" y="98" key="#Deployment" timestamp="1595614959088">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="452" y="98" key="#Deployment/0.0.1920.1040@0.0.1920.1040" timestamp="1595614959088" />
+    <state x="490" y="48" key="CommitChangelistDialog2" timestamp="1595615501325">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="490" y="48" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1595615501325" />
+    <state x="184" y="85" key="DiffContextDialog" timestamp="1595615237505">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="184" y="85" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595615237505" />
+    <state x="690" y="187" key="FileChooserDialogImpl" timestamp="1595615571825">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="187" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1595615571825" />
+    <state x="452" y="190" key="Vcs.Push.Dialog.v2" timestamp="1595615512041">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="452" y="190" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1595615512041" />
+    <state x="718" y="418" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1595614917018">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="718" y="418" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1595614917018" />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="$PROJECT_DIR$" />
+    <option value="test" />
+    <option value="clean" />
+  </component>
+</project>

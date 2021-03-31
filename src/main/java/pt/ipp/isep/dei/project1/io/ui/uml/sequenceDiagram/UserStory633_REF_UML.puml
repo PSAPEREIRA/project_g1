@@ -1,0 +1,36 @@
+@startuml
+
+participant "uc633:GetTheDayWithHighestTemperatureAmplitudeController" as C #DAE8FC
+participant "house:House" as H #DAE8FC
+participant ":GeographicArea" as G #DAE8FC
+participant ":ListOfSensors" as LS #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+C->H: getSensorClosest (houseLocation,sensorType)
+activate H
+H->G: getSensorsClosestToHouseArea(location, sensorType)
+activate G
+G->LS: getSensorClosestForReadings(location, sensorType)
+activate LS
+LS --> G: sensorClosest
+deactivate LS
+G --> H: sensorClosest
+deactivate G
+H --> C: sensorClosest
+deactivate H
+@enduml

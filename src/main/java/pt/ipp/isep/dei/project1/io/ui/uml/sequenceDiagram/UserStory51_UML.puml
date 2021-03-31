@@ -1,0 +1,15 @@
+@startuml
+
+participant ":ListOfReadings" as D
+participant ":Configurations" as C
+
+
+D->C: getReadingInterval()
+activate D
+activate C
+C-->D: gridReadingTime Reading
+deactivate C
+D->D: addReadingToGrid()
+deactivate D
+
+@enduml

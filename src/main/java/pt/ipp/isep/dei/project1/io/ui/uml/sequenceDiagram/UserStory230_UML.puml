@@ -1,0 +1,17 @@
+@startuml
+Actor ROOMOWNER
+ROOMOWNER -> UI: Know the total nominal power in a room
+UI -> UI: Choose the room
+UI -> CONTROLLER: getTotalNominalPowerOfRoom (room)
+CONTROLLER -> ROOM: getNominalPower()
+ROOM -> LISTOFDEVICES: getNominalPower()
+LISTOFDEVICES -> DEVICE: getNominalPower()
+
+LISTOFDEVICES <-- DEVICE: getNominalPower() response
+ROOM <-- LISTOFDEVICES: getNominalPower() response
+CONTROLLER <-- ROOM: getNominalPower() response
+UI <-- CONTROLLER: getTotalNominalPowerOfRoom() response
+
+ROOMOWNER <-- UI: Total nominal power in the room choosed
+
+@enduml

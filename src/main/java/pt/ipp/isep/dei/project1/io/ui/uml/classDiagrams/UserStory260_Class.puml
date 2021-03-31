@@ -1,0 +1,71 @@
+@startuml
+
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+	FontSize 16
+
+}
+
+skinparam stereotypeCBackgroundColor White
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+skinparam Class {
+    HeaderBackgroundColor #DAE8FC
+	ArrowColor Black
+	BorderColor 6C8EBF
+	FontSize 15
+	FontColor Black
+	style Frame
+	FontStyle bold
+	FontName Arial Rounded MT Bold
+}
+
+hide circle
+
+class ImportRoomSensorsFromFileUI
+class ImportRoomSensorsFromFileController
+interface FileReader
+class House
+class JsonReader
+
+
+ImportRoomSensorsFromFileController "1  " --> "1  " FileReader
+
+
+FileReader "1  " <.. "1  " JsonReader
+
+
+ImportRoomSensorsFromFileUI "1" -> "1" ImportRoomSensorsFromFileController
+
+
+ImportRoomSensorsFromFileController "1 " -> " 1" House
+
+ImportRoomSensorsFromFileUI : -House: house
+ImportRoomSensorsFromFileUI : +run( )
+
+House : - House : ListOfRooms
+House : + getAllRooms( )
+
+interface FileReader <<interface>> {
++ getReaderType( )
++ importSensorsToRoom (path)
+}
+
+ImportRoomSensorsFromFileController : - House: house
+ImportRoomSensorsFromFileController : + getAvailableReaderTypesObjects(path)
+ImportRoomSensorsFromFileController : + importSensorsToHouseRooms(path)
+ImportRoomSensorsFromFileController : + setSensorsToRooms(listOfRooms, roomSensorFromJson)
+ImportRoomSensorsFromFileController : + getFh(logger)
+
+JsonReader : + ImportSensorsToRoom (path)
+
+@enduml

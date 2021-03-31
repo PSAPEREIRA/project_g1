@@ -1,0 +1,61 @@
+@startuml
+title Room's List Get Request
+participant "HTTP CLIENT" as PST #DAE8FC
+participant ":DispatcherServlet" as SR #DAE8FC
+participant ":RoomRestController" as CTRLGA #DAE8FC
+participant "responseEntity:ResponseEntity" as RES #DAE8FC
+participant ":RoomRepo" as GS #DAE8FC
+participant ":MapperListOfRooms" as MAP #DAE8FC
+
+skinparam title {
+	BorderColor 6C8EBF
+
+}
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+PST -> SR : GET ► room-configuration/rooms
+activate PST
+activate SR
+
+SR -> CTRLGA : getListOfRooms ( )
+
+activate CTRLGA
+CTRLGA -> GS : getRoomsDTO ( )
+activate GS
+
+GS -> MAP: toDto (listOfRooms)
+activate MAP
+
+GS <-- MAP : listOfRoomsDto
+
+deactivate MAP
+GS --> CTRLGA : listOfRoomsDto
+deactivate GS
+
+create RES
+CTRLGA->RES: new (listOfRoomsDto,HTTPSTATUS.OK)
+activate RES
+RES-->CTRLGA: responseEntity
+deactivate RES
+PST <-- CTRLGA : responseEntity
+
+deactivate SR
+
+deactivate CTRLGA
+deactivate PST
+
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+actor "Administrator" as P #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "Spring\nApplication" as SP #DAE8FC
+participant "House" as H #DAE8FC
+participant "repository:House" as RH #DAE8FC
+
+participant "ListOfHouseGrids" as LHG #DAE8FC
+participant "ListOfRooms" as LR #DAE8FC
+participant "ListOfSensors" as LS #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate M
+activate SP
+
+M -> SP: run(application.class)
+
+activate P
+M -> SP: application(HouseRepository\nHouseGridRepository\nRoomGridRepository\nSensorGridRepository);
+M -> P : Show Menu
+P -> M: Add House, HouseGrids,\n Rooms and Sensor to Database
+deactivate P
+M -> SP: SaveHouse\nToDataBase(repositories);
+
+SP -> H: addHouseToRepository( );
+
+H -> H: house:getHouse
+H -> RH: save(house);
+
+SP -> LHG: addAllListOfHouseGridsToRepository( );
+
+ref over LHG: repository:HouseGrids
+
+SP -> LR: addAllListOfRoomsToRepository( );
+
+ref over LR: repository:Room
+
+SP -> LS: addAllListOfSensorsToRepository( );
+
+ref over LS: repository:Sensor
+
+@enduml

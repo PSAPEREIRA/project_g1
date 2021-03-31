@@ -1,0 +1,80 @@
+@startuml
+participant "POSTMAN" as U #DAE8FC
+participant "Spring URL Resolver" as SR #DAE8FC
+participant "us149:AttachDetachRoomToHouseGridRestController" as C #DAE8FC
+participant "HouseGridService" as HS #DAE8FC
+participant "HouseGridRepo" as HR #DAE8FC
+participant "MapperListOfHouseGrid" as MH #DAE8FC
+participant "RoomRepo" as RR #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate U
+U -> SR:  GET ► /house-grid-configuration/house-grids
+activate SR
+SR -> C: getListOfHouseGrids()
+deactivate SR
+activate C
+C -> HR: getListOfHouseGrids()
+activate HR
+HR -> MH: getListOfHouseGridsDto()
+activate MH
+MH -->HR: list houseGridsDto
+deactivate MH
+HR --> C: list HouseGridDto
+deactivate HR
+C --> U: list houseGridDto
+deactivate C
+
+
+U -> SR:  GET ► /house-grid-configuration/house-grids/{house-grid-code}/rooms
+activate SR
+SR -> C: getListOfRoomsAttachedToHouseGrid(house-grid-code)
+deactivate SR
+activate C
+C -> HR: getHouseGridByCodeDto
+activate HR
+HR --> C: houseGridDto
+deactivate HR
+C->C: getListOfRoomsNames
+C-->U: list of rooms
+deactivate C
+
+U->SR: DELETE ► /house-grid-configuration//house-grids/{house-grid-code}/rooms\n@RequestBody String roomName
+activate SR
+SR -> C: detachRoomFromHouseGrid(house-grid-code, roomName)
+deactivate SR
+activate C
+C -> HS: removeRoomFromHouseGridIds(house-grid-code, roomName)
+activate HS
+HS -> HR: getHouseGridByCode(house-grid-code)
+activate HR
+HR --> HS: houseGrid
+deactivate HR
+HS -> RR: getRoomByName(roomName)
+activate RR
+RR --> HS: room
+deactivate RR
+HS->HS: removeRoomFromHouseGrid(houseGrid,roomName)
+HS-->C: true/false
+deactivate HS
+C-->U:true/false
+deactivate C
+
+deactivate U
+@enduml

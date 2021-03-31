@@ -1,0 +1,163 @@
+@startuml
+title <color:BLACK>[US06]: CreateNewAreaSensor Post Request</color>
+participant "HTTP CLIENT" as PST #DAE8FC
+participant "DispatcherServlet" as SR #DAE8FC
+participant "CreateNewAreaSensorRestController" as CTRLGA #DAE8FC
+participant "responseEntity:ResponseEntity" as RES #DAE8FC
+participant "GeoAreaSensorTypeService" as GS #DAE8FC
+participant "GeographicAreaRepo" as GEO #DAE8FC
+participant "SensorTypeRepo" as GAR #DAE8FC
+participant "geoArea:GeographicArea" as G #DAE8FC
+participant "areaSensor:AreaSensor" as AS #DAE8FC
+
+skinparam title {
+	BorderColor 6C8EBF
+    activityFontColor DeepSkyBlue
+}
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+PST -> SR : POST ► geographic\n-area-configuration\n/{geographic-area-name}\n/new-sensor \n@Body areaSensorDto
+activate PST
+activate SR
+
+SR -> CTRLGA : createareaSensorWithLocation (areaSensorDto, nameGA)
+deactivate SR
+activate CTRLGA
+
+CTRLGA -> GS: getGeographicAreaByNameDTO (nameGA)
+activate GS
+
+GS -> GEO: getGeographicAreaByNameDTO (nameGA)
+activate GEO
+
+alt accepted geographic area name
+GEO --> GS: geographicAreaDto
+deactivate GEO
+GS --> CTRLGA: geographicAreaDto
+deactivate GS
+
+else .                       [geographic area name not found
+create RES
+CTRLGA->RES: new ("Geographic area with name x not found!",HttpStatus.NOT_FOUND)
+activate RES
+
+RES-->CTRLGA: responseEntity
+deactivate RES
+PST <-- CTRLGA : responseEntity
+end
+CTRLGA -> GS: getSensorTypeByNameDTO(areaSensorDto)
+activate GS
+GS -> GAR: getSensorTypeByNameDTO(areaSensorDto)
+activate GAR
+
+alt accepted sensor type name
+GAR --> GS: sensorTypeDto
+deactivate GAR
+GS --> CTRLGA: sensorTypeDto
+deactivate GS
+else .                       [sensor type name not found
+CTRLGA->RES: new ("Sensor type with name x not found!",HttpStatus.NOT_FOUND)
+activate RES
+
+RES-->CTRLGA: responseEntity
+deactivate RES
+
+PST <-- CTRLGA : responseEntity
+end
+
+CTRLGA -> GS: checkOccupationAreaLimits (geographicAreaDtoName, areaSensorDtoLocation)
+activate GS
+GS -> GEO: checkOccupationAreaLimits (geographicAreaDtoName, areaSensorDtoLocation)
+activate GEO
+alt accepted area sensor location
+GEO --> GS: true
+deactivate GEO
+GS --> CTRLGA: true
+deactivate GS
+else .                       [invalid area sensor location
+CTRLGA->RES: new ("Sensor location is outside GeographicArea limits!", HttpStatus.UNPROCESSABLE_ENTITY)
+activate RES
+
+RES-->CTRLGA: responseEntity
+deactivate RES
+PST <-- CTRLGA: responseEntity
+end
+
+
+
+CTRLGA -> GS: createAndAddSensor (areaSensorDto, nameGA)
+activate GS
+
+GS -> GEO: createAndAddSensor (areaSensorDto, nameGA)
+
+activate GEO
+
+GEO -> GEO: getGeographicAreaByName (geoAreaName)
+
+GEO -> G: createAndAddSensor (areaSensorDto)
+activate G
+create AS
+G -> AS
+AS --> G: areaSensor
+
+
+
+alt area sensor impossible to create
+G -->GEO: int = -1
+GEO --> GS: int = -1
+GS --> CTRLGA: int = -1
+CTRLGA->RES: new ("Impossible to create sensor!", HttpStatus.NOT_ACCEPTABLE)
+activate RES
+RES-->CTRLGA: responseEntity
+deactivate RES
+
+G -> G: addSensor(areaSensor)
+
+PST <-- CTRLGA: responseEntity
+else .                      [impossible to add area sensor to geographic area
+G -->GEO: int = -2
+
+GEO --> GS: int = -2
+GS --> CTRLGA: int = -2
+CTRLGA->RES: new ("Impossible to add sensor!", HttpStatus.UNPROCESSABLE_ENTITY)
+activate RES
+RES-->CTRLGA: responseEntity
+deactivate RES
+PST <-- CTRLGA: responseEntity
+
+else .                      [ area sensor created and added to geographic area successfully
+G -->GEO: int = 1
+deactivate G
+GEO -> GEO: save(geographicArea)
+GEO --> GS: int = 1
+deactivate GEO
+GS --> CTRLGA: int = 1
+deactivate GS
+
+CTRLGA->RES: new ("Sensor x added to GeographicArea y!", HttpStatus.CREATED)
+activate RES
+
+RES-->CTRLGA: responseEntity
+deactivate RES
+PST <-- CTRLGA: responseEntity
+
+
+deactivate CTRLGA
+deactivate PST
+end
+
+@enduml

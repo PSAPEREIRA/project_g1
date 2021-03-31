@@ -1,0 +1,85 @@
+@startuml
+actor "Administrator" as P #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "ui015v2:ImportGeographicalAreasAndSensorsFromJSONOrXMLFileUI" as UI #DAE8FC
+participant "uc015v2:ImportGeographicalAreasAndSensorsFromJSONOrXMLFileController" as C #DAE8FC
+participant "objectMapper:ObjectMapper" as OM #DAE8FC
+participant "ListOfGeoAreas" as LGEO #DAE8FC
+participant "Configurations" as CONF #DAE8FC
+participant "file:File" as F #DAE8FC
+participant "core:CoreProgramFromJson" as CORE #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+activate P
+M -> P: Show menu
+P -> M: Select ImportGaFromJson option
+
+create UI
+M -> UI : create (ListOfGeoAreas)
+
+create C
+UI -> C : create ( )
+
+M -> UI: run ( )
+
+activate UI
+UI-->P: Ask path
+P-->UI: Write the selected path
+UI -> C: List<String> =importGaFromInputPath (listOfGeoAreas, path)
+
+activate C
+
+C->CONF:importListGeoAreaFromJson(path)
+
+activate CONF
+
+create F
+CONF->F: path
+
+create OM
+
+CONF->OM : create
+
+activate OM
+
+
+CONF->OM :Core = readValue(file,CoreProgramFromJson)
+
+
+create CORE
+OM->CORE: create
+
+OM-->CONF: core
+
+deactivate OM
+
+CONF-->C: core
+deactivate CONF
+C->C: createListOfGeoAreasFromCoreJson(core)
+C->C: check
+
+C->LGEO: addCheckName(GeographicArea)
+
+C-->UI: Validation Message + Names of Areas Added
+deactivate C
+UI-->P: Validation Message + Names of Areas Added
+
+
+deactivate UI
+@enduml

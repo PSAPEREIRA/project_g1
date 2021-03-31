@@ -1,0 +1,25 @@
+{
+  "readings": [
+    {
+      "id": "s1",
+      "timestamp/date": "2018-12-30T02:00:00+00:00",
+      "value": "57.2",
+      "unit": "F"
+    },
+    {
+      "id": "s1",
+      "timestamp/date": "2018-12-30",
+      "value": "57.2",
+      "unit": "F"
+    },
+    {
+      "id": "s3",
+      "timestamp/date": "2019-02-29",
+      "value": "57.2",
+      "unit": "F"
+    }
+  ]
+}
+
+
+

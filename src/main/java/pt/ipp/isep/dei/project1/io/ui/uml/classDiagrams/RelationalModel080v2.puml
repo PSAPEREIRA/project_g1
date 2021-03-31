@@ -1,0 +1,112 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+	}
+
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+class Geographic_Area
+class Area_Sensor
+class RoomSensor
+class Reading
+class Geographic_Area_Type
+class House_Grid
+class Occupation_Area
+
+class Geographic_Area {
+pk: geographicAreaType
+description
+geographic_Area_Type id
+occupation_Area id
+}
+
+class Geographic_Area_Type {
+pk: id
+pk: geographicAreaType
+}
+
+class Occupation_Area {
+pk: id
+lenght
+width
+Location
+}
+
+class Location {
+pk: id
+altitude
+latitude
+longitude
+}
+
+class Area_Sensor {
+pk id
+installation_date
+geographicAreaType
+unit
+geographic_area
+sensor_type
+location
+}
+
+class RoomSensor {
+pk id
+installation_date
+geographicAreaType
+unit
+geographic_area
+sensor_type
+}
+
+class Reading {
+pk: id_of_sensor
+pk: date_time
+unit
+value
+}
+
+class House_Grid {
+pk: code
+power_limiter
+}
+
+class Room {
+pk: geographicAreaType
+house_grid
+description
+house_floor
+}
+
+
+Reading }-up-  Area_Sensor
+Area_Sensor }-up- Geographic_Area
+
+Geographic_Area }-- Geographic_Area_Type
+
+Geographic_Area -- Occupation_Area
+
+Reading }-up-  RoomSensor
+RoomSensor }-up- Room
+
+Room }-- House_Grid
+
+Geographic_Area -left- Location
+
+Area_Sensor -left- Location
+@enduml

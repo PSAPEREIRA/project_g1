@@ -1,0 +1,69 @@
+@startuml
+actor "Power User" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant "GetEnergyConsumptionUI" as U #DAE8FC
+participant ":GetEnergyConsumptionController" as C #DAE8FC
+participant ":House" as H #DAE8FC
+participant "houseGridChosen:HouseGrid" as HG #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate P
+
+M -> P: Show menu
+activate M
+deactivate M
+P -> M: Calculate energy consumption of a grid in a time interval
+activate M
+create U
+M -> U : create (house)
+
+create C
+U -> C : create (house)
+M -> U: run ( )
+activate U
+U -> C: getListOfHouseGrids ( )
+activate C
+C -> H: getListOfHouseGrids ( )
+activate H
+H --> C: listOfHouseGrids
+deactivate H
+C--> U: listOfHouseGrids
+deactivate C
+U -> P: Show list of House Grids
+P-->U: houseGridChosen
+U -> P: Choose the start date
+P-->U: startDate
+U -> P: Choose the final date
+P-->U: finalDate
+U->C: getConsumption (houseGridChosen, startDate, finaltDate)
+activate C
+
+C -> HG: getConsumption (startDate, finalDate)
+activate HG
+ref over HG: Total Consumption
+
+
+HG --> C: houseGridConsumption
+deactivate HG
+C --> U: houseGridConsumption
+deactivate C
+U --> P: HouseGrid Consumption
+deactivate U
+deactivate M
+deactivate P
+@enduml

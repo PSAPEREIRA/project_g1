@@ -1,0 +1,84 @@
+@startuml
+
+actor "User" as P
+participant ":Main UI" as M
+participant ":EstimatedConsumptionUI" as U
+participant ":EstimatedConsumptionController" as C
+participant ":House" as H
+participant ":HouseGrid" as HG
+participant ":ListOfRooms" as LR
+participant ":Room" as R
+participant ":ListOfDevices" as LD
+participant "electricWaterHeaterSpec:Device" as D
+participant ":DeviceSpecs" as  DS
+
+activate P
+activate M
+M -> P: Show menu
+deactivate M
+P -> M: Estimated WaterHeatersConsumptions
+activate M
+create U
+M -> U : create (house)
+create C
+U -> C : create (house)
+M -> U: run ( )
+U -> P: Insert Date
+P-->U: date
+U -> P: Insert water volume
+P--> U: waterVolume
+U -> P: Insert Hot Water Temperature
+P--> U: hotWaterTemperature
+U -> P: Insert Cold Water Temperature
+P--> U: coldWaterTemperature
+
+U->C: electricHeatingWaterDevicesDayConsumptionEstimation(specificAttributeValues)
+activate C
+
+C->C: listOfDevicesTypeElectricWaterHeaters ( )
+activate C
+loop
+C->H: getListOfHouseGrid ( )
+activate H
+H-> HG: getListOfRooms ( )
+activate HG
+HG->LR: getListOfRooms ( )
+activate LR
+LR->R: listOfWaterHeatersSelection ( )
+activate R
+
+R->LD: getmListOfDevices ( )
+activate LD
+LD->DS: getmDeviceSpecs ( )
+activate DS
+DS-->LD: deviceType
+deactivate DS
+LD-->R:listOfWaterHeaters
+deactivate LD
+
+R-->LR: listOfWaterHeaters
+deactivate R
+LR-->HG: listOfWaterHeaters
+deactivate LR
+HG-->H: listOfWaterHeaters
+deactivate HG
+H-->C:listOfWaterHeaters
+end
+deactivate H
+
+deactivate C
+loop
+C->D: getmDeviceSpecs ( )
+activate D
+
+D->DS: getEstimatedConsumption (specificAttributeValues)
+activate DS
+DS-->D: listSpecificAttributeValues
+deactivate DS
+
+D-->C: estimatedConsumption
+deactivate D
+end
+C-->U: estimatedTotalConsumption
+U-->P: estimatedToTalConsumption
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+USER -> UI: Get List of Existing Geographical Area Types
+UI -> Controler: get ListOfGATypes
+Controler -> ListOfGeographicArea:
+
+USER <-- ListOfGeographicAreaTypes : return ListOfGATypes
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+
+participant "Spring\nApplication" as SP #DAE8FC
+
+participant "ListOfHouseGrids" as LHG #DAE8FC
+participant "HouseGrid" as HG #DAE8FC
+participant "repository:HouseGrid" as RH #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+SP -> LHG: addAllListOfHouseGrids\nToRepository( );
+
+loop List of HouseGrids Size
+LHG -> HG: hg1:getHouseGrid
+
+HG -> RH: save(hg1);
+end
+
+@enduml

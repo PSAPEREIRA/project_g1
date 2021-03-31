@@ -1,0 +1,7 @@
+@startuml
+
+GeographicArea -> GeographicAreaType: setmGeographicAreaType
+GeographicAreaType -> ListOfGeographicArea: getmListOfGArea
+ListOfGeographicArea --> GeographicArea: geographicAreaIsInsideOfOtherGeographicArea
+
+@enduml

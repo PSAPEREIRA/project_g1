@@ -1,0 +1,13 @@
+@startuml
+
+
+node "localhost" {
+[Web UI]
+}
+
+node "server" {
+[smarthome]
+}
+
+localhost -- server : HTTP/s
+@enduml

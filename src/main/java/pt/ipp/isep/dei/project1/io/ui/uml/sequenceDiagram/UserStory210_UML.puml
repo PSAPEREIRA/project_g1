@@ -1,0 +1,14 @@
+@startuml
+USER -> MainUI: Add New Device
+MainUI -> CONTROLLER: AddNewDevice();
+CONTROLLER -> LISTOFDEVICES : newDevice = newDevice(Device)
+LISTOFDEVICES -> ROOM: AddNewDevice();
+
+USER <-- MainUI: Ask Details Of Device(Name,Type,Nominal Power)
+
+USER -> MainUI: Introduce Details Of Device(Name,Type,Nominal Power)
+MainUI -> CONTROLLER: NewDevice
+CONTROLLER -> LISTOFDEVICES : AddNewDevice
+
+USER <-- ROOM : return newDevice
+@enduml

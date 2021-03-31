@@ -1,0 +1,17 @@
+@startuml
+
+participant ":ListOfReadings" as D
+participant ":Configurations" as C
+
+
+D->C: getReadingInterval()
+activate D
+activate C
+C-->D: deviceReadingTime Reading
+deactivate C
+D->D: addReadingToDevice()
+deactivate D
+
+
+
+@enduml

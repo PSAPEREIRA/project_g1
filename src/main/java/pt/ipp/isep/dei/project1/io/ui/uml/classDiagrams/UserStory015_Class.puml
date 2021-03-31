@@ -1,0 +1,156 @@
+
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+
+	}
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+
+class ImportGAFromJsonUI
+class ImportGaFromJsonController
+class ListOfGeographicArea
+class Configurations
+class CoreProgramFromJson
+class ListOfGeoAreasFromJson
+class GeographicAreaFromJson
+class AreaSensorFromJson
+class LocationFromJson
+class SensorFromJson
+class LocalDateDeserializer
+class ObjectMapper
+class File
+
+
+
+
+ImportGAFromJsonUI "1     " --> "1  " ImportGaFromJsonController
+ImportGaFromJsonController . Configurations
+ImportGaFromJsonController  .up.>  ListOfGeographicArea
+
+Configurations  .up.  File
+Configurations  .  ObjectMapper
+File  ..  ObjectMapper
+ObjectMapper "1" -right->"1" CoreProgramFromJson
+CoreProgramFromJson "1  " -->  ListOfGeoAreasFromJson
+ListOfGeoAreasFromJson "    1" -left-> "0..*" GeographicAreaFromJson
+GeographicAreaFromJson "    1" -left-> "0..*" AreaSensorFromJson
+GeographicAreaFromJson "1   " --> "1  " LocationFromJson
+AreaSensorFromJson "1" -left-> "1" SensorFromJson
+AreaSensorFromJson "1 " --> "1   " LocationFromJson
+SensorFromJson "1" -left-> "1" LocalDateDeserializer
+
+class ImportGAFromJsonUI {
+   - ctrl:ImportGAFromJsonController
+   - listOfGeoArea:ListOfGeographicArea
+  + run ( );
+}
+
+class ImportGaFromJsonController{
++ importGaFromInputPath(ListOfGeographicArea listOfGeographicArea, String path)
++ createListOfGeoAreasFromCoreJson(CoreProgramFromJson core)
++ createListOfGeoAreasFromCoreJson(GeographicAreaFromJson geographicAreaFromFile)
+}
+
+class Configurations{
++ importListGeoAreaFromJsonToCore (String path)
+}
+
+class ObjectMapper{
+
++ readValue(file, CoreProgramFromJson.class)
+}
+
+class File{
++ new File(path)
+}
+
+class ListOfGeographicArea{
+ +addCheckName(GeographicArea geoArea)
+}
+
+
+
+class CoreProgramFromJson{
+-geographical_area_list : ListOfGeoAreasFromJson
++getGeographical_area_list()
+}
+class ListOfGeoAreasFromJson{
+-geographical_area : List<GeographicAreaFromJson>
++getGeographical_area()
+}
+class GeographicAreaFromJson{
+ __ private data __
+-idLocal : String
+-description : String
+-type : String
+-width : Double
+-length : Double
+-location : LocationFromJson
+-areaSensorJsonFormat : List<AreaSensorFromJson>
+..  Simple Getters ..
++getId()
++getDescription()
++getType()
++getWidth()
++getLength()
++getLocation()
++getArea_sensor()
+
+}
+class AreaSensorFromJson{
+ __ private data __
+-areaSensor : SensorFromJson
+-location : LocationFromJson
+ ..  Simple Getters ..
++getSensor()
++getLocation()
+}
+class LocationFromJson{
+ __ private data __
+ - latitude : Double
+ - longitude : Double
+ - altitude : Double
+ ..  Simple Getters ..
++getLatitude()
++geLongitude()
++getAltitude()
+}
+
+class SensorFromJson{
+ __ private data __
+-idLocal : String
+-geographicAreaType : String
+-startDate : LocalDate
+-type : String
+-units : String
+ ..  Simple Getters ..
++getId()
++getName()
++getStart_date()
++getType()
++getUnits()
+}
+class LocalDateDeserializer{
++deserialize(JsonParser parser, DeserializationContext context)
+}
+
+
+
+@enduml

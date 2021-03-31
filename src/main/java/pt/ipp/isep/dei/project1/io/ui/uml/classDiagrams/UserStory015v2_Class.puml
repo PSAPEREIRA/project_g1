@@ -1,0 +1,87 @@
+@startuml
+
+
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+	FontSize 16
+
+}
+
+skinparam stereotypeCBackgroundColor White
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+skinparam Class {
+    HeaderBackgroundColor #DAE8FC
+	ArrowColor Black
+	BorderColor 6C8EBF
+	FontSize 15
+	FontColor Black
+	style Frame
+	FontStyle bold
+	FontName Arial Rounded MT Bold
+}
+
+hide circle
+
+class ImportGeosFromFileUIV2
+class ImportGeosFromFileControllerV2
+interface FileReader
+class JsonReader
+class XmlReader
+class ListOfGeographicArea
+class ListOfGeographicAreasTypes
+
+ImportGeosFromFileControllerV2 "1  " --> "1  " FileReader
+
+ImportGeosFromFileControllerV2 "1 " -up-> "1     " ListOfGeographicArea
+
+ImportGeosFromFileControllerV2 "1    " -up-> "1 " ListOfGeographicAreasTypes
+
+
+FileReader "1      " <.. "1" JsonReader
+FileReader "1 " <.. "1     " XmlReader
+
+ImportGeosFromFileUIV2 "1" -> "1" ImportGeosFromFileControllerV2
+
+
+
+ImportGeosFromFileUIV2 : -ListOfGeographicArea: listGeoArea
+ImportGeosFromFileUIV2 : -ListOfGeographicAreasTypes: listOfGeoAreaTypes
+ImportGeosFromFileUIV2 : -boolean: checkIfImported
+ImportGeosFromFileUIV2 : -boolean: checkIfNoFile
+ImportGeosFromFileUIV2 : +run( )
+
+
+interface FileReader <<interface>> {
++ getReaderType( )
++ importGaFromInputPath( String path )
+}
+
+ImportGeosFromFileControllerV2 : + getAvailableReaderTypesObjects( )
+ImportGeosFromFileControllerV2 : + importFromFile ( fileReader, listOfGeoArea, path, listOfGeoAreaTypes )
+ImportGeosFromFileControllerV2 : + createListOfGeoAreasFromFile ( listOfImportedDummys )
+ImportGeosFromFileControllerV2 : + getNamesOfAddedGeos ( listGeoAreasFromFile, listOfGeoArea, listOfGeoAreaTypes )
+
+JsonReader : + importGaFromInputPath( String path )
+JsonReader : + convertDummyClassesFromJsonToStandardFromFile( dummyListToBeConverted )
+JsonReader : + convertAreaSensJsonInListOfSens( dummyAreaToBeConverted )
+JsonReader : + parserDate( int index, String date )
+
+XmlReader : + importGaFromInputPath( String path )
+XmlReader : + parserDate( int index, String date )
+
+ListOfGeographicArea : - List<GeographicArea> mListOfGArea
+ListOfGeographicArea : + addCheckName( ag )
+
+ListOfGeographicAreasTypes : - List<GeographicAreaType> mListOfGATypes
+ListOfGeographicAreasTypes : + add( agType )
+@enduml

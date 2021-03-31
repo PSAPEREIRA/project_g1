@@ -1,0 +1,66 @@
+@startuml
+
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+	FontSize 16
+
+}
+
+skinparam stereotypeCBackgroundColor White
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+skinparam Class {
+    HeaderBackgroundColor #DAE8FC
+	ArrowColor Black
+	BorderColor 6C8EBF
+	FontSize 15
+	FontColor Black
+	style Frame
+	FontStyle bold
+	FontName Arial Rounded MT Bold
+}
+
+hide circle
+
+class CSVfileUI
+class Configurations
+class ListOfGA
+
+CSVfileController "1  " --> "1  " Configurations
+
+CSVfileUI "1" -> "1" CSVfileController
+
+
+
+
+
+CSVfileController "1 " -> " 1" ListOfGA
+
+CSVfileUI : -ListOfGeographicArea: listOfGeographicArea
+CSVfileUI : +run( )
+
+ListOfGA : - List<GeographicArea> : ListOfGA
+ListOfGA : + getAllSensors( )
+
+
+Configurations : {abstract}
+Configurations : + readReadingsFromCSV( )
+
+CSVfileController : {abstract}
+CSVfileController : + readCSVFile( )
+CSVfileController : + addReading(readingDto)
+CSVfileController : + setReadingsBySensorIDescription( )
+
+
+
+
+@enduml

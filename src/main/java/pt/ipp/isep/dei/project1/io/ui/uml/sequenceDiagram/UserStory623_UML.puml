@@ -1,0 +1,29 @@
+@startuml
+User -> UI: AverageRainfallOnPeriod
+
+UI -> Controller: getAverageRainfall(LocalDate initialDate, LocalDate finalDate, House houseGA)
+
+Controller -> House:getmGeographicArea()
+House --> Controller:getmGeographicArea()
+
+Controller -> GeographicArea: getAverageRainfallinOneAG(initialDate, finalDate)
+
+GeographicArea -> ListOfSensors: getmListOfSensors()
+ListOfSensors --> GeographicArea: getmListOfSensors()
+
+GeographicArea -> Sensor: getAverageInOneInterval(initialDate, finalDate)
+
+Sensor -> Sensor: getAverageInOneDay(LocalDate)
+
+Sensor -> ListOfReadings: getmListOfReading()
+ListOfReadings --> Sensor: getmListOfReading()
+
+Sensor --> GeographicArea: getAverageInOneInterval(initialDate, finalDate)
+
+GeographicArea --> Controller: getAverageRainfallinOneAG(initialDate, finalDate)
+
+Controller --> UI: getAverageRainfall()
+
+UI --> User: AverageRainfallOnPeriod
+
+@enduml

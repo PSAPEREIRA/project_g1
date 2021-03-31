@@ -1,0 +1,73 @@
+@startuml
+
+actor "Administrator" as P #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "ui:ImportSensorsToRoomUI" as U #DAE8FC
+participant "ctrl:ImportSensorsToRoomController" as C #DAE8FC
+participant "Configurations" as CONF #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+activate P
+
+M -> P: Display menu
+activate M
+
+P --> M: Import a list of sensors \n  for the house rooms
+create U
+M -> U: create (house)
+
+create C
+U -> C: create (house)
+M -> U: run ( )
+
+activate U
+
+U -> C: getAvailableReaderTypesObjects( )
+activate C
+
+
+C -> CONF: importPackFromProperties(fileName)
+activate CONF
+CONF --> C: list of file reader types
+deactivate CONF
+C --> U: list of file reader types
+deactivate C
+
+
+U --> P: Display file types this functionality can read
+
+
+U-> P: Insert path
+
+P --> U: file path
+
+
+U-> C: importSensorsToHouseRooms(path)
+activate C
+ref over C: IMPORT SENSORS TO HOUSE ROOMS FROM JSON FILE
+
+C--> U: Information read by imported file
+deactivate C
+U--> P: Information read \n by imported file
+
+deactivate U
+
+deactivate M
+
+deactivate P
+@enduml

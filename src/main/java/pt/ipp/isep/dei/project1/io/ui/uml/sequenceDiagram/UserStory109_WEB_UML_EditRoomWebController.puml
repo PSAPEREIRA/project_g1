@@ -1,0 +1,74 @@
+@startuml
+
+participant "HTTP Client" as P #DAE8FC
+participant "Spring URL Resolver" as S #DAE8FC
+participant "us109:EditRoomWebControllerRest" as C #DAE8FC
+participant "RoomDomainService" as RRP #DAE8FC
+
+participant "responseEntity:ResponseEntity" as RES #DAE8FC
+participant "responseEntityOk:ResponseEntity" as RES1 #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+activate P
+P -> S : PUT ► localhost:8080/room-configuration/{room}/edit
+activate S
+S-> C : setNewRoomAttributeName (name, roomDto)
+deactivate S
+activate C
+C -> RRP : getRoomByNameDto(name)
+activate RRP
+RRP-->C : name
+deactivate RRP
+alt Invalid Room name
+
+
+create RES
+C->RES: new (name, HttpStatus.NOT_FOUND)
+
+RES-->C: responseEntity
+
+P <-- C : responseEntity
+else .                      [valid room name
+
+
+C->RRP : editRoom(name, roomDto)
+activate RRP
+RRP-->C : roomDtoFinal
+deactivate RRP
+
+
+create RES1
+C->RES1: new (roomDtoFinal, HttpStatus.OK))
+
+RES1-->C: responseEntityOk
+
+P <-- C : responseEntityOk
+deactivate C
+deactivate P
+end
+
+
+
+
+
+deactivate C
+
+
+@endumll

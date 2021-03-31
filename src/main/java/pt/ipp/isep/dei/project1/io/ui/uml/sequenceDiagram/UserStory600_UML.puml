@@ -1,0 +1,32 @@
+@startuml
+USER -> UI: currentTemperatureOfHouse
+
+
+UI -> Controller: sensorClosestToTheHouse (house)
+
+Controller -> House: getMinDistanceBetweenSensorToHouse (house)
+
+House -> Sensor: getLocation
+House <-- Sensor: getLocation response
+
+
+House -> Location: calculateDistanceBetweenTwoPoints (houseLocation, sensorLocation)
+House <-- Location: calculateDistanceBetweenTwoPoints response
+
+Controller <-- House: getMinDistanceBetweenSensorToHouse response
+
+UI -> Controller: getCurrentTemperature (sensorClosest)
+
+Controller -> Sensor: getListOfReading
+Sensor -> ListOfReading: getLastReading
+Sensor <-- ListOfReading: getLastReading response
+Controller <-- Sensor: getListOfReading response
+
+UI <-- Controller: getCurrentTemperature response
+
+
+USER <-- UI: currentTemperatureOfHouse response
+
+
+
+@enduml

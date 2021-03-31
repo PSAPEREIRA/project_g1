@@ -1,0 +1,45 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+
+	}
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+class CreateSaveNewGeographicAreaRestController
+class GeographicAreaTypeRepo
+class GeographicAreaRepo
+class GeographicArea
+
+CreateSaveNewGeographicAreaRestController : + getListOfGeographicAreasTypes( )
+CreateSaveNewGeographicAreaRestController : + createNewGeographicArea( )
+
+GeographicAreaTypeRepo : + getListOfAreaTypesDTO( )
+
+GeographicAreaRepo : + newGeographicArea( )
+
+CreateSaveNewGeographicAreaRestController "                                               1" --> "        1" GeographicAreaTypeRepo
+CreateSaveNewGeographicAreaRestController "  1" --> "1      " GeographicAreaRepo
+GeographicAreaRepo "                     1" --> "               1" GeographicArea
+
+
+
+
+
+
+@enduml

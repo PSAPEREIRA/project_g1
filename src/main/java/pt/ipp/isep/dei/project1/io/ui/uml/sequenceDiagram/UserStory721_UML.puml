@@ -1,0 +1,67 @@
+
+@startuml
+actor "Power User" as P
+participant ":Main UI" as M
+participant ":GetEnergyConsumptionUI" as U
+participant ":GetEnergyConsumptionController" as C
+participant ":House" as H
+participant "roomChosen:Room" as R
+participant ":ListOfDevices" as LD
+participant ":Device" as D
+
+
+
+
+M -> P: Show menu
+activate M
+activate P
+P -> M: Calculate energy consumption of a room in a time interval
+create U
+M -> U : create (house)
+
+create C
+U -> C : create ( )
+M -> U: run ( )
+activate U
+U -> C: getListOfRooms ( )
+activate C
+C -> H: getListOfRooms  ( )
+activate H
+H --> C: listOfRooms
+deactivate H
+C --> U: listOfRooms
+deactivate C
+U -> P: Request list of Rooms
+P-->U: roomChosen
+U -> P: Request the start date
+P-->U: startDate
+U -> P: Request the final date
+P-->U: finalDate
+U->C: getEnergyConsumptionOnOneRoom (roomChosen, startDate, finalDate)
+activate C
+
+
+
+C -> R: getEnergyConsumption (startDate, finalDate)
+activate R
+loop
+R -> LD:getListOfDevices (startDate, finalDate)
+activate LD
+LD -> D:getEnergyConsumption (startDate, finalDate)
+activate D
+D--> LD: deviceEnergyConsumption
+deactivate D
+LD--> R: deviceEnergyConsumption
+end
+deactivate LD
+
+R --> C: roomConsumption
+deactivate R
+C --> U: roomConsumption
+U --> P: Room Consumption
+deactivate C
+deactivate R
+deactivate P
+deactivate M
+deactivate U
+@enduml

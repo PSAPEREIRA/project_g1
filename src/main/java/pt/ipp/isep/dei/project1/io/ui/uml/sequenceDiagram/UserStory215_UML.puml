@@ -1,0 +1,38 @@
+@startuml
+actor Administrator
+participant "user Interface" as A
+participant "Controller" as B
+participant "House" as C
+participant "Room List" as D
+participant "Room" as E
+participant "Device List" as F
+participant "Specs" as G
+activate Administrator
+Administrator -> A: EDIT DEVICE
+
+A -> B: Choose device to edit (house, room, device)
+
+B -> C: getDeviceFromHouse(room, device)
+
+C --> D: getDeviceFromRoomList(room,device)
+
+D --> E: getDeviceFromRoom(device)
+
+E-->F: getDeviceFromList
+
+F-->B:return Device
+
+B-->Administrator: Show attribute options to edit
+
+Administrator-->A: Select attribute
+A-->Administrator: Ask Value
+
+
+
+Administrator -->A: Value
+
+A-->B: Edit Attribute Value(Device, Attribute, Value)
+
+B-->G: Set Attribute(Attribute, Value)
+
+@enduml

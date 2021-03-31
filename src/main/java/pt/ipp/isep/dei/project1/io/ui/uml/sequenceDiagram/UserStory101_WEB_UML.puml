@@ -1,0 +1,75 @@
+@startuml
+participant "Postman" as P #DAE8FC
+participant "Spring URL Resolver" as S #DAE8FC
+participant "ConfigureTheLocationOfTheHouseControllerRest" as C #DAE8FC
+participant "GeographicAreaRepo" as GAR #DAE8FC
+participant "ga:GeographicArea" as GA #DAE8FC
+participant "OccupationArea" as OA #DAE8FC
+participant "HouseRepo" as HR #DAE8FC
+participant "House" as H #DAE8FC
+
+
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate P
+P -> S : POST ► localhost:8080/house-configuration/house/{geographic-area-name}/location
+activate S
+S-> C : changeLocationOfTheHouse (location, geographicAreaName)
+deactivate S
+activate C
+
+C -> GAR  :getGeographicAreaByNameDTO (geographicAreaName)
+activate GAR
+GAR -> GA :getGeographicAreaByName (geographicAreaName)
+activate GA
+GA --> GAR : ga
+deactivate GA
+GAR --> C : geographicAreaDto
+deactivate GAR
+C--> P : "Geographic area with name  geographicAreaName not found!"
+
+C -> GAR :occupationAreaLimits()
+activate GAR
+
+
+GAR -> OA:occupationAreaLimits()
+activate OA
+OA --> GAR : true/false
+deactivate OA
+GAR --> C : true/false
+deactivate GAR
+C --> P : "Outside limits!"
+
+C -> HR :setLocationOfHouse (location)
+activate HR
+HR -> H :setLocationOfHouse (location)
+activate H
+deactivate H
+deactivate HR
+
+C -> HR :setGeographicAreaID (geographicAreaName)
+activate HR
+HR -> H :setGeographicAreaID (geographicAreaName)
+activate H
+deactivate H
+deactivate HR
+C --> P:"House location changed!"
+deactivate C\
+
+@enduml

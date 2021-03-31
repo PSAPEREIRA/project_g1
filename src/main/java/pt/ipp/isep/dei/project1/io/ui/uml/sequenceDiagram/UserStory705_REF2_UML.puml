@@ -1,0 +1,37 @@
+@startuml
+actor Administrator
+participant "user Interface" as A
+participant "Controller" as B
+participant "ListOfHouseGrids" as X
+participant "HouseGrid" as C
+participant "ListOfRooms" as D
+participant "Room" as E
+participant "ListOfDevices" as F
+participant "Device" as G
+
+A -> B: getDeviceFromRoom(houseGrid,roomOption,deviceOption)
+activate B
+B -> C: getListOfRooms(roomOption,deviceOption)
+activate C
+C -> D: getListOfRooms(roomOption,deviceOption)
+activate D
+D -> E: getRoom(deviceOption)
+activate E
+E -> F: getListOfDevices(deviceOption)
+activate F
+F -> G: getDevice()
+activate G
+G --> F: device
+deactivate G
+F --> E: device
+deactivate F
+E --> D: device
+deactivate E
+D --> C: device
+deactivate D
+C --> B: device
+deactivate C
+B --> A: device
+deactivate B
+
+@enduml

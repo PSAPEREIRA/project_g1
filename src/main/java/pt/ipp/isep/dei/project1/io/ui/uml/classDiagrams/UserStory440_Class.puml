@@ -1,0 +1,132 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 30
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+	}
+
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 20
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+
+class RoomComfortLevelUI
+class RoomComfortLevelCTRL
+class RoomGeoAreaService
+class GeographicArea
+class Room
+class RoomSensor
+class ListOfReadings
+class AreaSensor
+class RoomSensor
+
+
+RoomComfortLevelUI "1" -> "1" RoomComfortLevelCTRL
+RoomComfortLevelCTRL "1  " --> "1  " RoomGeoAreaService
+RoomGeoAreaService "1" -left-> "1" GeographicAreaRepo
+RoomGeoAreaService "1" -right-> "1" RoomRepo
+GeographicAreaRepo "1 " --> "1    " GeographicArea
+GeographicArea "1 " --> "1     " AreaSensor
+RoomRepo "1    " --> "1   " Room
+Room "1      " --> "1    " RoomSensor
+RoomSensor "1           " -up-> "1  " ListOfReadings
+AreaSensor "1" -up-> "1     " ListOfReadings
+
+
+class RoomComfortLevelUI {
++ run (house, option);
+}
+
+class RoomComfortLevelCTRL {
+- house : House
+- geographicAreaRepo : GeographicAreaRepo
+- roomRepo : RoomRepo
++ checkGeographicAreaOfTheHouse(house)
++ checkTemperatureSensorsOfHouseAreaCtrl( )
++ getListOfRooms ( )
++ getInstancesWithTemperatureHigherLowerComfortLevelCtrl(roomDto,cat,option,startDate,finalDate )
+}
+
+class RoomGeoAreaService {
+- geographicAreaRepo : GeographicAreaRepo
+- roomRepo : RoomRepo
++ checkTemperatureSensorsOfHouseArea (geoAreaOfHouse,locationOfTheHouse);
++ getInstancesWithTemperatureHigherLowerComfortLevel(cat,option,startDate,finalDate,geoAreaOfHouse,locationOfTheHouse)
+}
+
+
+class GeographicAreaRepo {
+- listOfGeographicArea : List<GeographicArea>
+- geographicAreaRepository : GeographicAreaRepo
+- listOfAreaSensor : List<AreaSensor>
+- areaSensorRepository : AreaSensorRepository
++ getSensorClosestToHouseArea(geographicAreaName, location, sensorType)
++ getAverageDailyTemperatureInHouseArea(geographicAreaName, location,startDate,finalDate)
+}
+
+class RoomRepo {
+- listOfRooms : List<Room>
+- roomRepository : RoomRepository
+- listOfRoomSensor : List<RoomSensor>
+- roomSensorRepository : RoomSensorRepository
++ getInstancesWithTemperatureHigherLowerComfortOnRoomRepo(listOfHouseAreaTemperature,cat,option,startDate)
+}
+
+class GeographicArea {
+- name : String
+- listOfAreaSensor : List<AreaSensor>
++ getName();
++ getAverageDailyTemperatureInHouseArea(location,sensorType,date)
++ getSensorClosestForReadings(location,sensorType)
++ getSensorByListResultAndListSameType(listOfAreaSensorResult)
++ getListOfSensorsOfSameType(sensorType)
+}
+
+class AreaSensor {
+- name : String
+- idOfSensor : String
+- listOfReadings : ListOfReadings
+- location : Location
+- sensorType : SensorType
++ checkListOfReadingsOfSensorIsEmpty()
++ calculateDistanceBetweenSensorToHouse(location)
+}
+
+class Room {
+- name : String
+- listOfRoomSensor : List<RoomSensor>
++ getInstancesWithTemperatureHigherLowerComfortOnRoom(listOfHouseAreaTemperature,cat,option,startDate)
++ checkTemperatureSensorOfRoom()
+}
+
+class RoomSensor {
+- name : String
+- idOfSensor : String
+- listOfReadings : ListOfReadings
+- sensorType : SensorType
++ getInstancesWithTemperatureHigherLowerComfortOnRoomSensor(listOfHouseAreaTemperature,cat,option,startDate)
++ temperatureByCat(listOfHouseAreaTemperature,cat,option)
++ temperatureCatOne(listOfHouseAreaTemperature,option)
++ temperatureCatTwo(listOfHouseAreaTemperature,option)
++ temperatureCatThree(listOfHouseAreaTemperature,option)
+}
+
+class ListOfReadings {
+- listOfReadings : List <Readings>
++ getReadingsOnDayLowerComfort(startDate,tempMin)
++ checkIfListOfReadingsIsEmpty()
+}
+
+@enduml

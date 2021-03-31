@@ -1,0 +1,11 @@
+@startuml
+USER -> UI: Add a New Sensor to a Room
+UI -> CONTROLLERS: AttachSensorToRoom()
+USER <-- UI : Ask Details from New Sensor (Name, Location)
+USER -> UI : Introduce Details of Sensor (Name, Location)
+CONTROLLERS -> LISTOFSENSORS: newAreaSensor = newAreaSensor(NewSensor)
+LISTOFSENSORS -> LISTOFROOMS : AttachSensorToRoom()
+
+USER <-- LISTOFROOMS : return added New Sensor To a Room
+
+@enduml

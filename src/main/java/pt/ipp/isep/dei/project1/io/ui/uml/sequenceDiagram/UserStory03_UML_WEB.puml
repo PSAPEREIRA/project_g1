@@ -1,0 +1,56 @@
+@startuml
+
+participant "Postman" as PST #DAE8FC
+participant "Spring Resolver" as SR #DAE8FC
+participant "CreateSaveNewGeographic\nAreaRestController" as CTRL #DAE8FC
+participant "GeographicAreaTypeRepo" as GATR #DAE8FC
+participant "GeographicAreaRepo" as GAS #DAE8FC
+participant "GeographicArea" as GA #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+PST -> SR : GET ► geographic\n-area-configuration/geographic-area-types
+activate SR
+SR -> CTRL : getListOfGeographicAreasTypes ( )
+deactivate SR
+activate CTRL
+CTRL -> GATR : getListOfGeographicAreasTypes ( )
+activate GATR
+CTRL <-- GATR : list : listOfGeographicAreaTypes
+deactivate GATR
+PST <-- CTRL : list : listOfGeographicAreaTypes
+deactivate CTRL
+PST -> SR: POST ► geographic\n-area-configuration/new
+activate SR
+SR -> CTRL: createNewGeographicArea (geographicAreaDto)
+deactivate SR
+activate CTRL
+CTRL -> GAS: createNewGeographicArea (geographicAreaDto)
+activate GAS
+create GA
+GAS -> GA :
+GAS <-- GA : true/false
+CTRL <-- GAS : true/false
+deactivate GAS
+PST <-- CTRL : true/false
+
+
+
+
+
+@enduml

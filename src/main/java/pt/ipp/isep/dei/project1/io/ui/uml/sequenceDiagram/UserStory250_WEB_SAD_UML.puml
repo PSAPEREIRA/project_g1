@@ -1,0 +1,62 @@
+@startuml
+
+participant "HTTP CLIENT" as PST #DAE8FC
+participant ":Spring URL Resolver" as SR #DAE8FC
+participant ":ConfiguringGetListOfAllSensorsInARoomRestController" as CTRLGA #DAE8FC
+participant "responseEntity:ResponseEntity" as RES #DAE8FC
+participant ":RoomDomainService" as GS #DAE8FC
+participant ":RoomRepository" as GS #DAE8FC
+participant ":MapperRoom" as MAP #DAE8FC
+
+
+skinparam title {
+	BorderColor 6C8EBF
+
+}
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+PST -> SR : GET ► room-configuration//{room-name}/sensors
+activate PST
+activate SR
+
+SR -> CTRLGA : getListOfAllSensorsInARoom (roomName)
+
+activate CTRLGA
+
+
+CTRLGA -> GS :getRoomByNameDto (roomName)
+
+GS -> GS: room : getRoomByName (roomName)
+
+
+GS -> MAP: toDto (room)
+MAP --> GS: roomDto
+GS --> CTRLGA: roomDto
+
+create RES
+CTRLGA->RES: new (roomName,HttpStatus.NOT_FOUND)
+activate RES
+RES-->CTRLGA: responseEntity
+deactivate RES
+PST <-- CTRLGA : responseEntity
+
+deactivate SR
+
+deactivate CTRLGA
+deactivate PST
+
+@enduml

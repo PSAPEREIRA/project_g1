@@ -1,0 +1,55 @@
+@startuml
+actor PowerUser
+
+participant "User Interface" as A
+participant "Validations" as B
+participant "Controller" as C
+participant "ListOfHouseGrids" as D
+participant "HouseGrid" as E
+participant "ListOfRooms" as F
+participant "Room" as G
+participant "ListOfDevices" as H
+participant "Device" as I
+
+PowerUser -> A: Total Nominal Power
+
+ref over A : Validation 1
+
+
+A -> C: getHouseGridSelectedByUserInput(house,int)
+
+C -> D: metodo2
+
+D --> C: metodo2 response
+
+C --> A: metodo1 response
+
+ref over A : Validation 2
+
+ref over A : Nested Loop
+
+alt Room
+
+	A -> C: metodo3
+
+	C -> G: metodo4
+
+	G --> C: metodo4 response
+
+	C --> A: metodo3 response
+
+
+else device
+
+    A -> C: metodo5
+
+    C -> I: metodo6
+
+    I --> C: metodo6 response
+
+    C --> A: metodo5 response
+end
+
+A -> PowerUser: Total Nominal Power
+
+@enduml

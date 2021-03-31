@@ -1,0 +1,78 @@
+@startuml
+title [US06]: GeographicAreaList Get Request
+participant "HTTP CLIENT" as PST #DAE8FC
+participant "DispatcherServlet" as SR #DAE8FC
+participant "GeographicAreaRestController" as CTRLGA #DAE8FC
+participant "responseEntity:ResponseEntity" as RES #DAE8FC
+participant "GeoAreaSensorTypeService" as GS #DAE8FC
+participant "GeographicAreaRepo" as GAR #DAE8FC
+participant "MapperListOfGeographicArea" as MAP #DAE8FC
+
+skinparam title {
+	BorderColor 6C8EBF
+
+}
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+PST -> SR : GET ► geographic\n-area-configuration/geographic-areas
+activate PST
+activate SR
+
+SR -> CTRLGA : getListOfGeographicAreas ( )
+deactivate SR
+
+activate CTRLGA
+CTRLGA -> GS : getListOfGeographicAreasDTO ( )
+activate GS
+
+GS -> GAR : getListOfGeographicAreasDTO ( )
+activate GAR
+
+
+GAR -> MAP: toDtoWeb (listOfGeographicArea)
+activate MAP
+
+MAP --> GAR: listGeographicAreaDtoWeb
+deactivate MAP
+
+GS <-- GAR : listGeographicAreaDtoWeb
+deactivate GAR
+GS --> CTRLGA : listGeographicAreaDtoWeb
+deactivate GS
+
+alt geographic area list not empty
+create RES
+CTRLGA->RES: new (listGeographicAreaDtoWeb,HTTPSTATUS.OK)
+
+RES-->CTRLGA: responseEntity
+
+PST <-- CTRLGA : responseEntity
+else .                       [empty geographic area list
+CTRLGA->RES: new ("List of geographic areas is empty!",HTTPSTATUS.OK)
+
+RES-->CTRLGA: responseEntity
+
+PST <-- CTRLGA : responseEntity
+deactivate CTRLGA
+deactivate PST
+end
+
+
+
+@enduml

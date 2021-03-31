@@ -1,0 +1,76 @@
+@startuml
+
+participant "Postman" as PST #DAE8FC
+participant "Spring Resolver" as SR #DAE8FC
+participant "GeographicAreaRestController" as CTRLGA #DAE8FC
+participant "CreateNewSensorAndAssociate\nToGeographicAreaRestController" as CTRL #DAE8FC
+participant "GeographicAreaTypeRepo" as GATR #DAE8FC
+participant "GeographicAreaRepo" as GAR #DAE8FC
+participant "SensorTypeRepo" as STR #DAE8FC
+participant "Sensor" as S #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+PST -> SR : GET ► geographic\n-area-configuration/geographic-areas
+activate SR
+SR -> CTRLGA : getListOfGeographicAreas ( )
+deactivate SR
+activate CTRLGA
+CTRLGA -> GAR : getListOfGeographicAreas ( )
+activate GAR
+CTRLGA <-- GAR : listOfGeographicAreas
+deactivate GAR
+PST <-- CTRLGA : listOfGeographicAreas
+deactivate CTRLGA
+PST -> SR: GET ► geographic\n-area-configuration/sensors-types
+activate SR
+SR -> CTRL: getListOfSensorsType( )
+activate CTRL
+deactivate SR
+CTRL -> STR: getListOfSensorsType( )
+activate STR
+CTRL <-- STR: list : listOfSensorsType
+deactivate CTRL
+deactivate STR
+PST <-- CTRL : list : listOfSensorsType
+PST -> SR : GET ► geographic\n-area-configuration/{geographic-area-name}\n/sensor-location
+activate SR
+SR -> CTRL : checkLocationIsInGA (location , nameGA )
+activate CTRL
+deactivate SR
+CTRL -> GAR : checkLocationIsInGA (location , nameGA )
+activate GAR
+CTRL <-- GAR : geographicAreaDto
+deactivate GAR
+PST <-- CTRL : geographicAreaDto
+deactivate CTRL
+PST -> SR : GET ► geographic\n-area-configuration/{geographic-area-name}/new
+activate SR
+SR -> CTRL : createNewSensorWithLocation ( areaSensorDto, nameGA )
+deactivate SR
+activate CTRL
+CTRL -> STR: createNewSensorWithLocation ( areaSensorDto, nameGA )
+activate STR
+create S
+STR -> S :
+STR <-- S : true/false
+CTRL <-- STR : true/false
+deactivate STR
+PST <-- CTRL : true/false
+
+@enduml

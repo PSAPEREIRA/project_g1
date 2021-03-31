@@ -1,0 +1,21 @@
+@startuml
+actor PowerUser
+
+participant "User Interface" as A
+participant "Validations" as B
+
+
+
+
+A -> B: metodo1()
+
+B --> A: metodo1 response
+
+A -> PowerUser: Empty List
+
+A -> B: metodo2()
+
+B --> A: metodo2 response
+
+A -> PowerUser: Invalid Input
+@enduml

@@ -1,0 +1,92 @@
+@startuml
+actor "Regular User" as P #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "ui633:GetTheDayWithHighestTemperatureAmplitudeUI" as U #DAE8FC
+participant "uc633:GetTheDayWithHighestTemperatureAmplitudeController" as C #DAE8FC
+participant "MapperSensorList" as MP #DAE8FC
+participant "sensorClosest:Sensor" as S #DAE8FC
+participant ":ListOfReading" as LR #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+activate P
+M -> P: Show menu
+activate M
+P -> M: Get the day with the highest temperature amplitude in given period
+
+create U
+M -> U : create (house)
+
+create C
+U -> C : create (house)
+
+M -> U: run ( )
+
+activate U
+U -> C: getListOfSensorsInHouseAreaAsDto ()
+activate C
+C -> MP: toDto (listOfSensorsInHouseArea)
+activate MP
+MP --> C: listOfSensorsInHouseAreaDto
+deactivate MP
+C --> U: listOfSensorsInHouseAreaDto
+deactivate C
+
+U->P: Ask for a period
+P-->U: Period chosen
+
+U->C: getDayWithHighestTemperatureAmplitude (initialDate, finalDate)
+activate C
+
+C->C: getSensorClosest (houseLocation,sensorType)
+ref over C: getSensorClosest
+
+
+C->S: getDayWithHighestTemperatureAmplitude(initialDate, finalDate)
+activate S
+S->LR: getHighestTemperatureAmplitudeAndDate(initialDate,finalDate)
+activate LR
+LR-->S: list of days with highest temperature amplitude
+deactivate LR
+S-->C: list of days with highest temperature amplitude
+deactivate S
+C-->U: list of days with highest temperature amplitude
+deactivate C
+
+U->C: getHighestTemperatureAmplitude (initialDate, finalDate)
+activate C
+
+C->C: getSensorClosest (houseLocation,sensorType)
+ref over C: getSensorClosest
+
+
+C->S: getHighestTemperatureAmplitude(initialDate, finalDate)
+activate S
+S->LR: getHighestTemperatureAmplitude(initialDate,finalDate)
+activate LR
+LR-->S: highest temperature amplitude
+deactivate LR
+S-->C: highest temperature amplitude
+deactivate S
+C-->U: highest temperature amplitude
+deactivate C
+U-->P: Day(s) and highest temperature amplitude
+deactivate U
+deactivate M
+@enduml

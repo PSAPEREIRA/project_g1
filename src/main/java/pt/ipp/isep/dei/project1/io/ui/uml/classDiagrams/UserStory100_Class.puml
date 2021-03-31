@@ -1,0 +1,85 @@
+@startuml
+
+
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+	FontSize 16
+
+}
+
+skinparam stereotypeCBackgroundColor White
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+skinparam Class {
+    HeaderBackgroundColor #DAE8FC
+	ArrowColor Black
+	BorderColor 6C8EBF
+	FontSize 15
+	FontColor Black
+	style Frame
+	FontStyle bold
+	FontName Arial Rounded MT Bold
+}
+
+hide circle
+
+class ConfigureHouseFromFileUI
+class ConfigureHouseFromFileController
+interface FileReader
+class JsonReader
+class House
+
+
+ConfigureHouseFromFileController "1  " --> "1  " FileReader
+
+ConfigureHouseFromFileController "1" -right-> "1" House
+
+
+FileReader "1  " <.. "1  " JsonReader
+
+
+ConfigureHouseFromFileUI "1" -> "1" ConfigureHouseFromFileController
+
+
+
+ConfigureHouseFromFileUI : -ConfigureHouseFromFileController ctrl
+ConfigureHouseFromFileUI : +run( )
+
+
+interface FileReader <<interface>> {
++ getReaderType( )
++ importHouseFromInputPath ( String path )
+}
+
+
+ConfigureHouseFromFileController : - House house
+ConfigureHouseFromFileController : - HouseFromJsonFile houseFromJsonFile
+ConfigureHouseFromFileController : + getAvailableReaderTypesObjects( )
+ConfigureHouseFromFileController : + importFromFile ( String path )
+ConfigureHouseFromFileController : + createHouseFromFile ( )
+ConfigureHouseFromFileController : + createAddressFromHouseFile ( )
+ConfigureHouseFromFileController : + createListOfRoomsFromHouseFile ( )
+ConfigureHouseFromFileController : + createListOfHouseGridsFromHouseFile( )
+ConfigureHouseFromFileController : + createRoomsInGrid ( )
+ConfigureHouseFromFileController : + addRoomToGrid ( HouseGrid houseGrid, List<String> list )
+ConfigureHouseFromFileController : + checkIfHouseImported ( FileReader fR )
+
+JsonReader : + importHouseFromInputPath(String path)
+
+
+House : + setAddress ( Address addressImported )
+House : + setListOfRoomsOfHouse ( ListOfRooms importedRooms )
+House : + setListOfHouseGrids( ListOfHouseGrids importedGrids )
+
+
+
+@enduml

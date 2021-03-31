@@ -1,0 +1,46 @@
+@startuml
+
+participant "Postman" as Post #DAE8FC
+
+participant "Spring URL Resolver" as SUR #DAE8FC
+
+participant "CreateAHouseGridRestController" as CTRL #DAE8FC
+
+participant "HouseGridRepo" as HGR #DAE8FC
+
+participant "HouseGrid" as HG #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+activate Post
+Post -> SUR: POST ► house-grid-configuration/new
+activate SUR
+SUR -> CTRL: addNewHouseGrid()
+deactivate SUR
+activate CTRL
+CTRL -> HGR : addNewHouseGrid()
+deactivate CTRL
+
+create HG
+
+HGR -> HG :
+HGR <--HG : true/false
+CTRL <-- HGR : true/false
+Post <-- CTRL :"added"/"Impossible to create or add!"
+
+
+@enduml

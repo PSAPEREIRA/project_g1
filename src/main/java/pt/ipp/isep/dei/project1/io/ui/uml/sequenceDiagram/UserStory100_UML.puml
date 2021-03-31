@@ -1,0 +1,78 @@
+@startuml
+actor "Administrator" as A #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "ui:ConfigureHouseFromFileUI" as U #DAE8FC
+participant "ctrl:ConfigureHouseFromFileController" as C #DAE8FC
+participant "Configurations" as CONF #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+activate A
+M -> A: Display menu
+activate M
+A --> M: Configure the house from a file containing basic house information, grids and rooms.
+
+create U
+M -> U : create (house)
+
+create C
+U -> C : create (house)
+
+M -> U: run ( )
+
+activate U
+
+U -> C: getAvailableReaderTypesObjects( )
+
+activate C
+
+C -> CONF: importPackFromProperties(fileName)
+
+activate CONF
+
+CONF --> C: list of file reader types
+
+deactivate CONF
+
+C --> U: list of file reader types
+
+deactivate C
+
+
+U --> A: Display file types this functionality can read
+
+U-> A: Insert path
+
+A --> U: file path
+
+
+U->C: importHouseFromFile (path)
+
+activate C
+
+ref over C: IMPORT HOUSE FROM JSON FILE
+
+C-->U: Information read by imported file
+
+deactivate C
+
+U-->A: Information read by imported file
+
+deactivate U
+
+deactivate M
+deactivate A
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+
+skinparam Component {
+    BackgroundColor #DAE8FC
+	ArrowColor Black
+	BorderColor 6C8EBF
+	FontSize 15
+	FontColor Black
+	style Frame
+	FontStyle bold
+	FontName Arial Rounded MT Bold
+}
+
+skinparam componentAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+
+
+
+
+package "Architecture Diagram" {
+
+       [CLI] -(0- [CLI Controllers]
+       [Domain Model] -up(0- [CLI Controllers]
+       [WEB Server] -(0- [REST Controllers]
+       [Domain Model] -up(0- [REST Controllers]
+
+       }
+       @enduml

@@ -1,0 +1,33 @@
+@startuml
+
+participant "Spring\nApplication" as SP #DAE8FC
+
+participant "ListOfSensors" as LHG #DAE8FC
+participant "Sensor" as HG #DAE8FC
+participant "repository:Sensor" as RH #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+SP -> LHG: addAllListOfSensors\nToRepository( );
+
+loop List of Sensor Size
+LHG -> HG: s1:getSensor
+
+HG -> RH: save(s1);
+end
+
+@enduml

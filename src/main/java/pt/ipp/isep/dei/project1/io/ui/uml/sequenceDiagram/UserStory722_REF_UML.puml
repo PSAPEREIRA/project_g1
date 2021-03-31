@@ -1,0 +1,54 @@
+@startuml
+
+participant ":GetEnergyConsumptionController" as C #DAE8FC
+participant "houseGridChosen:HouseGrid" as HG #DAE8FC
+participant ":ListOfRooms" as B #DAE8FC
+participant ":Room" as R #DAE8FC
+participant ":ListOfDevices" as LD #DAE8FC
+participant ":Device" as D #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+C -> HG: getConsumption (startDate, finalDate)
+activate HG
+
+loop
+HG -> B: getRoom ( )
+activate B
+B --> HG: room
+deactivate B
+HG -> R: getConsumption (startDate, finalDate)
+activate R
+loop
+R -> LD:getDevice (startDate, finalDate)
+activate LD
+LD -> D:getConsumption (startDate, finalDate)
+activate D
+D--> LD: deviceConsumption
+deactivate D
+LD--> R: deviceConsumption
+end
+deactivate LD
+R --> HG: roomConsumption
+deactivate R
+end
+
+HG --> C: houseGridConsumption
+deactivate HG
+@enduml

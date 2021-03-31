@@ -1,0 +1,64 @@
+@startuml
+actor "Power User" as P
+participant ":Main UI" as M
+participant ":DeactivateDeviceUI" as U
+participant ":DeactivateDeviceController" as C
+participant "house:House" as H
+participant "roomChosen:Room" as R
+participant "deviceChosen:Device" as D
+
+M -> P: Show menu
+
+activate M
+activate P
+P --> M: Deactivate a device
+
+create U
+M -> U : create (house)
+create C
+U -> C : create (house)
+
+M -> U: run ( )
+activate U
+U -> C: getListOfRooms ( )
+activate C
+C -> H: getListOfRooms ( )
+
+activate H
+H --> C: listOfRooms
+deactivate H
+C --> U: listOfRooms
+deactivate C
+U -> P: Request Room
+P-->U: roomChosen
+
+U -> C: getListOfDevices (roomChosen)
+activate C
+C -> R: getListOfDevices (roomChosen)
+activate R
+R --> C: listOfDevices
+deactivate R
+C --> U: listOfDevices
+deactivate C
+U -> P: Request Device
+P-->U: deviceChosen
+
+
+U -> C: deactivateDevice(deviceChosen)
+activate C
+C -> D: set()
+activate D
+D --> C: device deactivated
+deactivate D
+C--> U: device deactivated
+deactivate C
+U--> P: device deactivated
+
+U-> P: Device is already deactivated
+
+deactivate C
+deactivate R
+deactivate P
+deactivate U
+deactivate M
+@enduml

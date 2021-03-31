@@ -1,0 +1,9 @@
+@startuml
+User-> UI: detachRoomFromHouseGrid
+UI --> Controller: detachRoomFromHouseGrid
+Controller --> HouseGrid: removeRoom
+
+HouseGrid-> Controller: response True/False
+Controller-> UI: response True/False
+UI-> User: response True/False
+@enduml

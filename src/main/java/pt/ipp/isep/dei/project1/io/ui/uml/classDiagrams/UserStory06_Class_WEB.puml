@@ -1,0 +1,85 @@
+@startuml
+
+skinparam class {
+    HeaderBackgroundColor #DAE8FC
+	BackgroundColor White
+	ArrowColor black
+	BorderColor 6C8EBF
+	FontSize 15
+	headerFontColor 6C8EBF
+	style Frame
+	FontName Arial Rounded MT Bold
+
+	}
+hide circle
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+class MapperListOfGeographicAreas
+class GeographicAreaRestController
+class CreateNewAreaSensorRestController
+class GeoAreaSensorTypeService
+class SensorTypeRepo
+class GeographicAreaRepo
+class MapperListOfSensorType
+class GeographicArea
+class AreaSensor
+
+
+GeoAreaSensorTypeService : + getListOfSensorTypesDTO ( )
+GeoAreaSensorTypeService : + getGeographicAreaByNameDTO ( )
+GeoAreaSensorTypeService : + getSensorTypeByNameDTO ( )
+GeoAreaSensorTypeService : + checkOccupationAreaLimits ( )
+GeoAreaSensorTypeService : + createAndAddSensor ( )
+GeoAreaSensorTypeService : + getListOfGeographicAreasDTO ( )
+GeoAreaSensorTypeService : + getSensorByIdDTO ( )
+
+MapperListOfGeographicAreas : + toDto ( )
+MapperListOfSensorType : + toDto ( )
+
+AreaSensor : - String : idOfSensor
+AreaSensor : - String : name
+AreaSensor : - Location : location
+AreaSensor : - LocalDate : installationDate
+AreaSensor : - SensorType : sensorType
+
+GeographicAreaRestController : + getListOfGeographicAreas ( )
+GeographicAreaRestController : + getGeographicAreaByNameDTO ( )
+
+
+CreateNewAreaSensorRestController : + createAndAddSensor ( )
+CreateNewAreaSensorRestController : + checkOccupationAreaLimits ( )
+CreateNewAreaSensorRestController : + getListOfSensorType ( )
+CreateNewAreaSensorRestController : + getSensorTypeByNameDTO ( )
+CreateNewAreaSensorRestController : + getSensorByIdDTO ( )
+CreateNewAreaSensorRestController : + getGeographicAreaByNameDTO ( )
+
+SensorTypeRepo : + getListOfSensorTypesDTO ( )
+SensorTypeRepo : + getSensorTypeByNameDTO ( )
+
+GeographicAreaRepo : + getGeographicAreaByNameDTO ( )
+GeographicAreaRepo : + getGeographicAreaByName ( )
+GeographicAreaRepo : + checkOccupationAreaLimits ( )
+GeographicAreaRepo : + createAndAddSensor ( )
+GeographicAreaRepo : + saveGeographicArea ( )
+
+GeographicArea : + createAndAddSensor ( )
+GeographicArea : + addSensor ( )
+
+GeographicAreaRestController "  1" --> "                                                 1" GeoAreaSensorTypeService
+CreateNewAreaSensorRestController "1   " --> "            1" GeoAreaSensorTypeService
+GeographicAreaRepo "          1" --> " 1" MapperListOfGeographicAreas
+SensorTypeRepo "          1" --> "         1" MapperListOfSensorType
+GeographicArea "0..*   " <-- "1  " GeographicAreaRepo
+GeographicArea "1 " --> "             0..*" AreaSensor
+
+GeoAreaSensorTypeService "1" --> " 1" GeographicAreaRepo
+GeoAreaSensorTypeService "1" --> "1" SensorTypeRepo
+
+@enduml

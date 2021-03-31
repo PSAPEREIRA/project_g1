@@ -1,0 +1,65 @@
+@startuml
+participant "ui:ConfigureHouseFromFileUI" as U #DAE8FC
+participant "ctrl:ConfigureHouseFromFileController" as C #DAE8FC
+participant "reader:JsonReader" as J #DAE8FC
+participant "file:File" as F #DAE8FC
+participant "objectMapper:ObjectMapper" as O #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+U->C: importFromFile(path)
+
+activate C
+
+C->J: importHouseFromInputPath(path)
+
+activate J
+
+create F
+J->F: create (path)
+
+create O
+J->O: create ( )
+
+J->O: readValue(file, HouseFromJsonFile.class)
+
+activate O
+
+O-->J: houseFromJsonFile
+
+deactivate O
+
+J-->C: houseFromJsonFile
+
+deactivate J
+
+C->C: createHouseFromFile()
+
+note left
+	This method sets the imported
+	address, list of rooms,
+	list of house grids in the
+	model house and list of rooms
+	in each of these house grids.
+end note
+
+C-->U: Information read by imported file
+
+deactivate C
+
+@enduml

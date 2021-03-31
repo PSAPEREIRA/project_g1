@@ -1,0 +1,75 @@
+@startuml
+
+actor "Administrator" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant ":ImportSensorsReadingsUI" as U #DAE8FC
+participant ":ImportSensorsReadingsController" as C #DAE8FC
+participant ":Configurations" as CO #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+P -> M: Import Readings of House Sensors
+activate P
+create U
+M -> U: create (house)
+
+create C
+U -> C: create (house)
+M -> U: run ( )
+activate M
+activate U
+
+U -> C: getListOfReadersOfSensorReadings( )
+activate C
+
+
+C -> CO: readListOfFileReadersOfSensorReadings( )
+activate CO
+CO -> C: listOfReadings
+deactivate CO
+C -> U: listOfReadings
+deactivate C
+
+
+U --> P: Show the type of file
+P --> U: Type of file chosen
+
+alt JSON
+
+ref over U: addReadingsToSensorsOfHouse(reader, path.json)
+
+else XML
+
+ref over U: addReadingsToSensorsOfHouse(reader, path.xml)
+
+else CSV
+
+ref over U: addReadingsToSensorsOfHouse(reader, path.csv)
+
+P -[#white]> CO:
+
+deactivate U
+deactivate M
+deactivate P
+
+end
+
+
+
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+USER -> UI: createNewHouseGrid
+UI -> CONTROLLER: createNewHouseGrid (String code, double power)
+
+CONTROLLER -> ListOfHouseGrids: newHouseGrid (String code, double power)
+CONTROLLER <-- ListOfHouseGrids: newHouseGrid response
+
+UI <-- CONTROLLER: createNewHouseGrid response
+
+
+USER <-- UI : createNewHouseGrid response
+@enduml

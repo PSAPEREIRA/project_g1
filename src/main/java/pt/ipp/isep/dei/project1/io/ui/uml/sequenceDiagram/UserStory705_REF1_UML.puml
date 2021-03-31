@@ -1,0 +1,27 @@
+@startuml
+actor Administrator
+participant "user Interface" as A
+participant "Controller" as B
+participant "ListOfHouseGrids" as X
+participant "HouseGrid" as C
+participant "ListOfRooms" as D
+participant "Room" as E
+
+A -> B: getRoomFromHouseGrid(houseGrid,roomOption)
+activate B
+B -> C: getListOfRooms(roomOption)
+activate C
+C -> D: getListOfRooms(roomOption)
+activate D
+D -> E: getRoom()
+activate E
+E --> D: room
+deactivate E
+D --> C: room
+deactivate D
+C --> B: room
+deactivate C
+B --> A: room
+deactivate B
+
+@enduml

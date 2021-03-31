@@ -1,0 +1,86 @@
+@startuml
+actor "Administrator" as A #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "ui015v2:Import.UI" as U #DAE8FC
+participant "uc015v2:Import.Ctrl" as C #DAE8FC
+participant "Configurations" as CONF #DAE8FC
+participant "<<FileReader>>" as F #DAE8FC
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+M -> A: Display menu
+activate A
+activate M
+A -> M: US015v2
+
+create U
+M -> U : create (listOfGeoArea, listOfGeoAreaType)
+
+create C
+U -> C : create ( )
+
+M -> U: run ( )
+
+activate U
+
+U -> C: getAvailableReaderTypesObjects( )
+
+activate C
+
+create CONF
+C -> CONF: getListOfFileReaderTypes()
+
+activate CONF
+
+CONF --> C: list of file reader types
+
+deactivate CONF
+
+C --> U: list of file reader types
+
+deactivate C
+
+U --> A: Type of file this functionality can read
+
+U-> A: Insert path
+
+A --> U: path
+
+U -> C: importFromFile (file, listGA, path, listGAtype)
+
+create F
+
+activate C
+C -> F: importGAfromImputPath (listGA, path, listGAtype)
+
+activate F
+F --> C: listGAimportedNames
+deactivate F
+
+C --> U: listGAimportedNames
+deactivate C
+
+U --> A: names GEO areas imported
+
+deactivate U
+
+deactivate M
+deactivate A
+
+@enduml

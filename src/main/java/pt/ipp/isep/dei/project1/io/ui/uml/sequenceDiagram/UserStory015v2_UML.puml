@@ -1,0 +1,98 @@
+@startuml
+actor "Administrator" as A #DAE8FC
+participant "Main UI" as M #DAE8FC
+participant "ui015v2:ImportGeographicalAreasAndSensorsFromJSONOrXMLFileUI" as U #DAE8FC
+participant "uc015v2:ImportGeographicalAreasAndSensorsFromJSONOrXMLFileController" as C #DAE8FC
+participant "Configurations" as CONF #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+M -> A: Display menu
+activate M
+A --> M: Import geographical areas and sensors \n from a JSON or a XML file
+
+create U
+M -> U : create (listOfGeoArea,\n listOfGeoAreaType)
+
+create C
+U -> C : create ( )
+
+M -> U: run ( )
+
+activate U
+
+U -> C: getAvailableReaderTypesObjects( )
+
+activate C
+
+C -> CONF: importPackFromProperties(fileName)
+
+activate CONF
+
+CONF --> C: list of file reader types
+
+deactivate CONF
+
+C --> U: list of file reader types
+
+deactivate C
+
+
+U --> A: Display file types this functionality can read
+
+U-> A: Insert path
+
+A --> U: file path
+
+alt JSON
+
+U->C: importFromFile (listGeoArea, listOfGeoAreaTypes, path)
+
+activate C
+
+ref over C: IMPORT GEOGRAPHIC AREAS FROM JSON FILE
+
+C-->U: list of names of imported GeoAreas
+
+deactivate C
+
+U-->A: Names of imported Geographic Areas
+
+
+else XML
+
+U->C: importFromFile (listGeoArea, path, listOfGeoAreaTypes)
+
+activate C
+
+ref over C: IMPORT GEOGRAPHIC AREAS FROM XML FILE
+
+
+C-->U: list of names of imported GeoAreas
+
+deactivate C
+
+U-->A: Names of imported Geographic Areas
+
+deactivate U
+
+deactivate M
+
+end
+
+
+@enduml

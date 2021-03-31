@@ -1,0 +1,82 @@
+@startuml
+
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+	FontSize 16
+
+}
+
+skinparam stereotypeCBackgroundColor White
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam defaultFontName Segoe UI
+
+skinparam Class {
+    HeaderBackgroundColor #DAE8FC
+	ArrowColor Black
+	BorderColor 6C8EBF
+	FontSize 15
+	FontColor Black
+	style Frame
+	FontStyle bold
+	FontName Arial Rounded MT Bold
+}
+
+hide circle
+
+class ImportReadingsFromFileUI
+class ImportReadingsFromFileController
+interface FileReader
+class ListOfGeographicArea
+class CoreProgramFromJsonV2
+class CoreProgramFromXml
+class CoreProgramFromCsv
+
+
+ImportReadingsFromFileController "1  " --> "1  " FileReader
+
+
+FileReader "1         " <.. "1  " CoreProgramFromJsonV2
+FileReader "1  " <.. "1  " CoreProgramFromXml
+FileReader "1  " <.. "1           " CoreProgramFromCsv
+
+ImportReadingsFromFileUI "1" -> "1" ImportReadingsFromFileController
+
+
+ImportReadingsFromFileController "1 " -> " 1" ListOfGeographicArea
+
+
+
+ImportReadingsFromFileUI : -ListOfGeographicArea: listOfGeographicArea
+ImportReadingsFromFileUI : +run( )
+
+ListOfGeographicArea : - List<GeographicArea> : ListOfGeographicArea
+ListOfGeographicArea : + getAllSensors( )
+
+
+interface FileReader <<interface>> {
++ getReaderType( )
++ importReadingsOfSensor( String path )
+}
+
+
+ImportReadingsFromFileController : {abstract}
+ImportReadingsFromFileController : + addReadingsToSensors(reader, path)
+ImportReadingsFromFileController : + setReadingsBySensorIDescription(listOfAreaSensors, readingDtoList)
+ImportReadingsFromFileController : + getListOfReadersOfSensorReadings( )
+ImportReadingsFromFileController : + checkSensorStatusInDate(areaSensor, localDate)
+ImportReadingsFromFileController : + getFh(logger)
+
+CoreProgramFromXml : + importReadingsOfSensor(path)
+CoreProgramFromJsonV2 : + importReadingsOfSensor(path)
+CoreProgramFromCsv : + importReadingsOfSensor(path)
+
+
+@enduml

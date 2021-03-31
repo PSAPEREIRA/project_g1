@@ -1,0 +1,63 @@
+@startuml
+
+actor "Administrator" as P #DAE8FC
+participant ":Main UI" as M #DAE8FC
+participant ":CSVfileUI" as U #DAE8FC
+participant ":CSVfileController" as C #DAE8FC
+participant ":Configurations" as CO #DAE8FC
+participant ":ListOfGA" as LGA #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+P -> M: Import csv Readings of Geographic Area Sensors
+create U
+M -> U: create (listOfGeoAreas)
+
+create C
+U -> C: create (listOfGeoAreas)
+M -> U: run ( )
+activate U
+
+U -> P: Insert Path
+P --> U: path
+U -> C: readCSVFile(path)
+activate C
+
+
+C-> CO: readCSVFile( )
+activate CO
+
+CO --> C:  List<ReadingDto>
+deactivate CO
+
+C -> LGA: getAllSensors( )
+activate LGA
+
+LGA --> C: listOfAreaSensors
+deactivate LGA
+
+C -> C: setReadingsBySensorIDescription( )
+
+C --> U: number of lines added
+deactivate C
+
+U --> P: number of lines added
+deactivate U
+
+@enduml
+

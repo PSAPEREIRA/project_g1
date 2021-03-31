@@ -1,0 +1,72 @@
+@startuml
+title <color:BLACK>[US06]: SensorTypesList Get Request</color>
+participant "HTTP CLIENT" as PST #DAE8FC
+participant "DispatcherServlet" as SR #DAE8FC
+participant "CreateNewAreaSensorRestController" as CTRLGA #DAE8FC
+participant "responseEntity:ResponseEntity" as RES #DAE8FC
+participant "GeoAreaSensorTypeService" as GS #DAE8FC
+participant "SensorTypeRepo" as GAR #DAE8FC
+participant "MapperListOfSensorType" as MAP #DAE8FC
+
+skinparam title {
+	BorderColor 6C8EBF
+    activityFontColor DeepSkyBlue
+}
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+PST -> SR : GET ► geographic\n-area-configuration/sensor-types
+activate PST
+activate SR
+
+SR -> CTRLGA : getListOfSensorsType ( )
+deactivate SR
+activate CTRLGA
+
+CTRLGA -> GS : getListOfSensorTypesDto ( )
+activate GS
+GS -> GAR : getListOfSensorTypesDto ( )
+activate GAR
+GAR -> MAP: toDto (listOfSensorsType)
+activate MAP
+
+MAP --> GAR: listOfSensorTypesDto
+deactivate MAP
+
+GS <-- GAR : listOfSensorTypesDto
+deactivate GAR
+CTRLGA <-- GS : listOfSensorTypesDto
+deactivate GS
+alt sensor type list not empty
+create RES
+CTRLGA->RES: new (listOfSensorTypesDto,HTTPSTATUS.OK)
+
+RES-->CTRLGA: responseEntity
+
+PST <-- CTRLGA : responseEntity
+else .                       [empty sensor type list
+CTRLGA->RES: new ("List of sensor types empty!",HTTPSTATUS.OK)
+
+RES-->CTRLGA: responseEntity
+
+PST <-- CTRLGA : responseEntity
+deactivate CTRLGA
+deactivate PST
+end
+
+
+
+@enduml

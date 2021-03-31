@@ -1,0 +1,38 @@
+@startuml
+User -> UI: TotalRainfallInHouseAreaOnGivenDay
+
+UI -> Controller: closestSensorInGeoAreaFromHouse (House)
+
+Controller -> House: getSensorClosestToHouse()
+
+House -> GeographicArea: getmGeographicArea()
+
+House <-- GeographicArea: getmGeographicArea() response
+
+House -> ListOfSensors: getmListOfSensors()
+
+House <-- ListOfSensors: getmListOfSensors() response
+
+House -> Sensor: calculateDistanceBetweenSensorToHouse(Sensor)
+
+House <-- Sensor: calculateDistanceBetweenSensorToHouse(Sensor) response
+
+Controller <-- House:getSensorClosestToHouse()
+
+UI <-- Controller: closestSensorInGeoAreaFromHouse(House) response
+
+UI -> Controller: sumOfRainfallInDay (Sensor, LocalDate)
+
+Controller -> Sensor: getSumOfRainfallInCertainDay (Sensor,LocalDate)
+
+Sensor -> ListOfReadings: getmListOfReadings()
+
+Sensor <-- ListOfReadings: getmListOfReadings() response
+
+Controller <-- Sensor: getSumOfRainfallInCertainDay (Sensor,LocalDate) response
+
+UI <-- Controller: sumOfRainfallInDay (Sensor, LocalDate) response
+
+User <-- UI: TotalRainfaillInHouseAreaOnGivenDay response
+
+@enduml

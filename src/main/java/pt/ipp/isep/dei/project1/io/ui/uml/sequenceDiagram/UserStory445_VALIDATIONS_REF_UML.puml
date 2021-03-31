@@ -1,0 +1,57 @@
+@startuml
+actor "PowerUser/Room Owner" as PU #DAE8FC
+participant "MainUI" as MUI #DAE8FC
+participant "rclUi:RoomComfortLevelUI" as UI #DAE8FC
+participant "rclCtrl:RoomComfortLevelCTRL" as C #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+MUI-> PU: Display Menu
+PU -> MUI : Want to have a list of the instants \n in which the temperature rose above the comfort level \n in a given time interval and category
+
+create UI
+
+MUI -> UI : create ( )
+MUI -> UI : run (house, "above")
+
+create C
+
+UI -> C : create ( )
+
+
+UI ->C : checkGeographicAreaOfTheHouse (house)
+UI <-- C : True
+UI ->C : checkTemperatureSensorsOfHouseArea (house)
+UI <-- C : True
+
+PU <- UI : Select Room
+PU --> UI : Room Selected
+
+UI ->C : checkTemperatureSensorsOfTheRoom (roomDto)
+UI <-- C : True
+
+PU <- UI : Select Category
+PU --> UI : Category Selected (cat)
+PU <- UI : Insert Time Period
+PU --> UI : Time period (Initial/Final Date)
+
+UI -> C : getInstancesWithTemperatureHigherLowerComfortLevel \n (roomDto, cat, "above", initialDate, finalDate)
+UI <-- C : list of instants requested
+UI --> PU : list of instants requested
+
+@enduml

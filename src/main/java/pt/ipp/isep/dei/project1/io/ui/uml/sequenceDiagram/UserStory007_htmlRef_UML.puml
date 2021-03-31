@@ -1,0 +1,91 @@
+@startuml
+
+participant "Postman" as Post #DAE8FC
+
+participant "Spring URL Resolver" as SR #DAE8FC
+
+participant "defineIfGeographicAreaIsInsideOtherAreaRestController\n:DefineIfGeographicAreaIsInsideOtherAreaRestController" as C #DAE8FC
+
+participant "GeographicAreaRestController" as CR #DAE8FC
+
+participant "GeographicAreaRepo" as GR #DAE8FC
+participant "MapperListOfGeographicAreaWeb" as MP #DAE8FC
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+
+
+
+
+Post -> SR: GET ► geographic-area-configuration/\ngeographic-areas
+activate Post
+
+activate SR
+SR -> CR: getListOfGeographicAreas( )
+
+activate CR
+CR -> GR: getListOfGeographicAreasDTO( )
+
+activate GR
+GR -> MP: getListOfGeographicAreasDTO( )
+
+activate MP
+MP --> GR: getListOfGeographicAreasDTO( )
+deactivate MP
+
+GR --> CR: getListOfGeographicAreasDTO( )
+deactivate GR
+
+CR --> SR: getListOfGeographicAreas( )
+deactivate CR
+
+SR --> Post: list of Geographic Areas
+deactivate SR
+
+
+Post -> SR: \n\nPUT ► geographic-area-configuration/\nga_inside_other/son/{agSon}/dad/{agDad}
+
+activate SR
+SR -> C: geographicAreaIsInsideOfOtherGeographicArea(\n@PathVariable("agSon") String agSonName,\n@PathVariable("agDad") String agDadName)
+
+activate C
+C -> GR: getGeographicAreaByNameDTO(agSonName)
+
+activate GR
+
+GR --> C: true/false
+deactivate GR
+C -> GR: getGeographicAreaByNameDTO(agDadName)
+activate GR
+
+GR --> C: true/false
+deactivate GR
+C -> GR: addGeographicAreaInsideAnother(agSonName,agDadName)
+activate GR
+
+GR --> C: true/false
+deactivate GR
+
+C --> SR: true/false
+deactivate C
+
+SR --> Post: true/false
+deactivate SR
+
+deactivate Post
+
+@enduml

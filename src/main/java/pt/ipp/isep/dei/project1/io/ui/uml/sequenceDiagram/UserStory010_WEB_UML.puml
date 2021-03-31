@@ -1,0 +1,59 @@
+@startuml
+participant "POSTMAN" as U #DAE8FC
+participant "Spring URL Resolver" as SR #DAE8FC
+participant "DeactivateRemoveSensorInGeographicAreaRestController" as C #DAE8FC
+participant "GeographicAreaRestController" as GR #DAE8FC
+
+participant "GeographicAreaRepo" as R #DAE8FC
+
+
+
+
+
+skinparam actor {
+	BorderColor 6C8EBF
+}
+
+skinparam participant {
+	BorderColor 6C8EBF
+}
+
+skinparam shadowing false
+
+skinparam sequence {
+	ArrowColor BLACK
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor BLACK
+}
+
+U -> SR:  GET ► /geographic-area-configuration/\ngeographic-areas
+
+SR -> GR: getListOfGeographicAreas ( )
+
+GR -> R: getListOfGeographicAreasDTO ( )
+
+R --> GR: listOfGeographicAreas
+
+GR --> U: listOfGeographicAreas
+
+U-> SR:  GET ► /geographic-area-configuration/\ngeographic_areas/{geographic-area-name}/active-sensors
+
+SR -> C: getListOfSensorsActivate ( )
+
+C -> R: getListOfSensorsActiveDTO (geographicAreaName)
+
+R --> C: listOfSensorsActivated
+
+C --> U: listOfSensorsActivated
+
+U-> SR:  GET ► /geographic-area-configuration/\ngeographic_areas/{geographic-area-name}/Sensors/{idOfSensor}
+
+SR -> C: deactivateSensor (geographicAreaName, idOfSensor)
+
+C -> R: deactivateSensor (geographicAreaName, idOfSensor)
+
+R --> C: true
+
+C --> U: "Sensor deactivated!"
+
+@enduml

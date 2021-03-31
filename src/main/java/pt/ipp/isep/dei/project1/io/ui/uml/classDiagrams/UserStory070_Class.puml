@@ -1,0 +1,59 @@
+@startuml
+
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+	FontSize 16
+
+}
+
+skinparam stereotypeCBackgroundColor White
+
+skinparam classAttributeIconSize 0
+
+skinparam classAttributeFontSize 13
+
+skinparam shadowing false
+
+skinparam package {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Gray
+	FontSize 12
+	FontColor Gray
+	style Frame
+}
+
+skinparam note{
+    BackgroundColor White
+    BorderColor White
+    FontColor Gray
+    FontSize 12
+}
+
+hide circle
+class House
+class Configurations
+class ListOfDeviceTypes
+
+House "1" -- "1" ListOfDeviceTypes : listOfDeviceTypes
+
+ListOfDeviceTypes "1 " - " 1" Configurations
+
+package config.properties {
+    note "DeviceType = String value" as N
+}
+
+Configurations -- config.properties
+
+House : {abstract}
+House : + getListOfDeviceTypes ( )
+
+ListOfDeviceTypes : - deviceType: DeviceType
+ListOfDeviceTypes : + getListOfDeviceTypes( )
+
+Configurations : {abstract}
+Configurations : + readListOfDeviceTypes( )
+
+@enduml
